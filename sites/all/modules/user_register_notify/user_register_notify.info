@@ -1,0 +1,9 @@
+name = User registration notification
+description = Notifies administrator of new user registrations.
+core = 6.x
+; Information added by drupal.org packaging script on 2011-08-26
+version = "6.x-1.12"
+core = "6.x"
+project = "user_register_notify"
+datestamp = "1314368837"
+

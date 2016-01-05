@@ -1,0 +1,10 @@
+name = 'me' Aliases
+description = Provides links to current user's pages using 'me' instead of the numerical user id.
+core = 6.x
+
+; Information added by Drupal.org packaging script on 2015-06-24
+version = "6.x-2.10"
+core = "6.x"
+project = "me"
+datestamp = "1435156381"
+

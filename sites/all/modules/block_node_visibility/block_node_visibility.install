@@ -1,0 +1,44 @@
+<?php
+// $Id: block_node_visibility.install,v 1.2 2010/04/06 17:12:10 gestaltware Exp $
+
+/**
+ * @file
+ *  Install file for Block Node Visibility.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function block_node_visibility_install() {
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function block_node_visibility_uninstall() {
+  drupal_set_message(t('Block Node Visibility variables have been deleted.'));
+
+  db_query("UPDATE {blocks} SET visibility=0, pages='' WHERE pages LIKE '%%block_node_visibility%%'");
+  db_query("DELETE FROM {variable} WHERE name LIKE 'block_node_visibility_%%'");
+  cache_clear_all('variables', 'cache');
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function block_node_visibility_enable() {
+  drupal_set_message(t('Block Node Visibility has been enabled. !block_config', array(
+    '!block_config' => l(t('Configure blocks'), 'admin/build/block'),
+  )));
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * Unset block page to prevent white screen on module disable or uninstall.
+ */
+function block_node_visibility_disable() {
+  drupal_set_message(t('Block Node Visibility has been disabled. Blocks which had previously used Block Node Visibility will be shown on all pages. !block_config', array(
+    '!block_config' => l(t('Configure blocks'), 'admin/build/block'),
+  )));
+}
