@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @file
  * Functions to handle the FTP backup destination.
@@ -12,7 +11,7 @@
  * @ingroup backup_migrate_destinations
  */
 class backup_migrate_destination_ftp extends backup_migrate_destination_remote {
-  var $supported_ops = array('scheduled backup', 'manual backup', 'restore', 'list files', 'configure', 'delete');
+  var $supported_ops = array('scheduled backup', 'manual backup', 'remote backup', 'restore', 'list files', 'configure', 'delete');
   var $ftp = NULL;
 
   /**
@@ -51,7 +50,7 @@ class backup_migrate_destination_ftp extends backup_migrate_destination_remote {
     backup_migrate_include('files');
     $files = array();
     $this->ftp_object();
-    $ftp_files = drupal_ftp_file_list('.', $this->ftp);
+    $ftp_files = (array)drupal_ftp_file_list('.', $this->ftp);
     foreach ($ftp_files as $file) {
       $files[$file['filename']] = new backup_file($file);
     }
@@ -133,7 +132,7 @@ function drupal_ftp_connect(&$ftp) {
     $ftp = drupal_ftp_ftp_object();
   }
 
-  if (empty($ftp->__conn) && !drupal_ftp_connected($ftp)) {
+  if (!$ftp->__conn && !drupal_ftp_connected($ftp)) {
     // Attempt to connect to the remote server
     $ftp->__conn = @ftp_connect($ftp->__server, $ftp->__port);
 
@@ -241,7 +240,7 @@ function drupal_ftp_file_to_ftp($file, $ftp_filename, $ftp_directory, &$ftp) {
     return FALSE;
   }
 
-  if ($source = file_create_path($file)) {
+  if ($source = drupal_realpath($file)) {
     // Now we can try to write to the remote file
     $complete_filename = $ftp_directory .'/'. $ftp_filename;
     $put_file = @ftp_put($ftp->__conn, $complete_filename, $source, FTP_BINARY);

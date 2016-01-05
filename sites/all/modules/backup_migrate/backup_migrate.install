@@ -20,28 +20,49 @@ function backup_migrate_requirements($phase) {
  */
 function backup_migrate_schema() {
   $schema['backup_migrate_profiles'] = array(
+    'export' => array(
+      'key' => 'machine_name',
+      'key name' => 'Profile ID',
+      'admin_title' => 'name',
+      'primary key' => 'profile_id',
+      'identifier' => 'item', // Exports will be defined as $preset
+      'default hook' => 'exportables_backup_migrate_profiles',  // Function hook name.
+      'api' => array(
+        'owner' => 'backup_migrate',
+        'api' => 'backup_migrate_exportables',  // Base name for api include files.
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
     'fields' => array(
       'profile_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE, // Do not export database-only keys.
+      ),
+      'machine_name' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
+        'description' => 'The primary identifier for a profile.',
       ),
       'name' => array(
-        'description' => t('The name of the profile.'),
+        'description' => 'The name of the profile.',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE
       ),
       'filename' => array(
-        'description' => t('The base pattern (including unreplaced tokens) for the name of the backup file.'),
+        'description' => 'The name of the profile.',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE
       ),
       'append_timestamp' => array(
-        'description' => t('Append a timestamp to the filename.'),
+        'description' => 'Append a timestamp to the filename.',
         'type' => 'int',
         'size' => 'tiny',
         'unsigned' => TRUE,
@@ -49,13 +70,13 @@ function backup_migrate_schema() {
         'default' => 0
       ),
       'timestamp_format' => array(
-        'description' => t('The format of the timestamp.'),
+        'description' => 'The format of the timestamp.',
         'type' => 'varchar',
         'length' => 14,
         'not null' => TRUE
       ),
       'filters' => array(
-        'description' => t('The filter settings for the profile.'),
+        'description' => 'The filter settings for the profile.',
         'type' => 'text',
         'not null' => TRUE,
         'serialize' => TRUE,
@@ -65,33 +86,54 @@ function backup_migrate_schema() {
     'primary key' => array('profile_id'),
   );
   $schema['backup_migrate_destinations'] = array(
+    'export' => array(
+      'key' => 'machine_name',
+      'key name' => 'Destination ID',
+      'admin_title' => 'name',
+      'primary key' => 'destination_id',
+      'identifier' => 'item', // Exports will be defined as $preset
+      'default hook' => 'exportables_backup_migrate_destinations',  // Function hook name.
+      'api' => array(
+        'owner' => 'backup_migrate',
+        'api' => 'backup_migrate_exportables',  // Base name for api include files.
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
     'fields' => array(
       'destination_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE, // Do not export database-only keys.
+      ),
+      'machine_name' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
+        'description' => 'The primary identifier for a destination.',
       ),
       'name' => array(
-        'description' => t('The name of the profile.'),
+        'description' => 'The name of the destination.',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE
       ),
-      'type' => array(
-        'description' => t('The type of the destination.'),
+      'subtype' => array(
+        'description' => 'The type of the destination.',
         'type' => 'varchar',
         'length' => 32,
         'not null' => TRUE
       ),
       'location' => array(
-        'description' => t('The the location string of the destination.'),
+        'description' => 'The the location string of the destination.',
         'type' => 'text',
         'not null' => TRUE
       ),
       'settings' => array(
-        'description' => t('Other settings for the destination.'),
+        'description' => 'Other settings for the destination.',
         'type' => 'text',
         'not null' => TRUE,
         'serialize' => TRUE,
@@ -100,23 +142,102 @@ function backup_migrate_schema() {
     ),
     'primary key' => array('destination_id'),
   );
+  $schema['backup_migrate_sources'] = array(
+    'export' => array(
+      'key' => 'machine_name',
+      'key name' => 'Source ID',
+      'admin_title' => 'name',
+      'primary key' => 'source_id',
+      'identifier' => 'item', // Exports will be defined as $preset
+      'default hook' => 'exportables_backup_migrate_sources',  // Function hook name.
+      'api' => array(
+        'owner' => 'backup_migrate',
+        'api' => 'backup_migrate_exportables',  // Base name for api include files.
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'source_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE, // Do not export database-only keys.
+      ),
+      'machine_name' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '0',
+        'description' => 'The primary identifier for a source.',
+      ),
+      'name' => array(
+        'description' => 'The name of the source.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE
+      ),
+      'subtype' => array(
+        'description' => 'The type of the source.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE
+      ),
+      'location' => array(
+        'description' => 'The the location string of the source.',
+        'type' => 'text',
+        'not null' => TRUE
+      ),
+      'settings' => array(
+        'description' => 'Other settings for the source.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'serialized default' => 'a:0:{}',
+     ),
+    ),
+    'primary key' => array('source_id'),
+  );
+
   $schema['backup_migrate_schedules'] = array(
+    'export' => array(
+      'key' => 'machine_name',
+      'key name' => 'Source ID',
+      'admin_title' => 'name',
+      'primary key' => 'schedule_id',
+      'identifier' => 'item', // Exports will be defined as $preset
+      'default hook' => 'exportables_backup_migrate_schedules',  // Function hook name.
+      'api' => array(
+        'owner' => 'backup_migrate',
+        'api' => 'backup_migrate_exportables',  // Base name for api include files.
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
     'fields' => array(
       'schedule_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'no export' => TRUE, // Do not export database-only keys.
+      ),
+      'machine_name' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
+        'description' => 'The primary identifier for a profile.',
       ),
       'name' => array(
-        'description' => t('The name of the profile.'),
+        'description' => 'The name of the profile.',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE
       ),
       'source_id' => array(
-        'description' => t('The {backup_migrate_destination}.destination_id of the source to backup from.'),
+        'description' => 'The {backup_migrate_destination}.destination_id of the source to backup from.',
         'type' => 'varchar',
         'length' => 255,
         'default' => 'db',
@@ -127,29 +248,36 @@ function backup_migrate_schema() {
         'length' => 255,
         'not null' => TRUE,
         'default' => '0',
-        'description' => t('The {backup_migrate_destination}.destination_id of the destination to back up to.'),
+        'description' => 'The {backup_migrate_destination}.destination_id of the destination to back up to.',
+      ),
+      'copy_destination_id' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '0',
+        'description' => 'A second {backup_migrate_destination}.destination_id of the destination to copy the backup to.',
       ),
       'profile_id' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
+        'description' => 'The primary identifier for a profile.',
       ),
       'keep' => array(
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
-        'description' => t('The number of backups to keep.'),
+        'description' => 'The number of backups to keep.',
       ),
       'period' => array(
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
-        'description' => t('The number of seconds between backups.'),
+        'description' => 'The number of seconds between backups.',
       ),
       'enabled' => array(
-        'description' => t('Whether the schedule is enabled.'),
+        'description' => 'Whether the schedule is enabled.',
         'type' => 'int',
         'size' => 'tiny',
         'unsigned' => TRUE,
@@ -157,12 +285,18 @@ function backup_migrate_schema() {
         'default' => 0
       ),
       'cron' => array(
-        'description' => t('Whether the schedule should be run during cron.'),
-        'type' => 'int',
-        'size' => 'tiny',
-        'unsigned' => TRUE,
+        'description' => 'Whether the schedule should be run during cron.',
+        'type' => 'varchar',
+        'length' => 32,
         'not null' => TRUE,
-        'default' => 0
+        'default' => 'builtin',
+      ),
+      'cron_schedule' => array(
+        'description' => 'The cron schedule to run on.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '0 4 * * *',
       ),
     ),
     'primary key' => array('schedule_id'),
@@ -175,57 +309,14 @@ function backup_migrate_schema() {
  * Implementation of hook_install().
  */
 function backup_migrate_install() {
-  drupal_install_schema('backup_migrate');
-  _backup_migrate_setup_database_defaults();
-}
-
-function _backup_migrate_setup_database_defaults() {
-  require_once './'. drupal_get_path('module', 'backup_migrate') .'/backup_migrate.module';
-  require_once './'. drupal_get_path('module', 'backup_migrate') .'/includes/crud.inc';
-  require_once './'. drupal_get_path('module', 'backup_migrate') .'/includes/profiles.inc';
-  require_once './'. drupal_get_path('module', 'backup_migrate') .'/includes/files.inc';
-
-  if (variable_get("backup_migrate_file_name", NULL)) {
-    $settings = array(
-      'profile_id' => 'default',
-      'filename' => variable_get("backup_migrate_file_name", _backup_migrate_default_filename()),
-      'append_timestamp' => variable_get("backup_migrate_append_timestamp", FALSE) ? 1 : 0,
-      'timestamp_format' => variable_get("backup_migrate_timestamp_format", 'Y-m-d\TH-i-s'),
-      'filters' => array(
-        'compression' => variable_get("backup_migrate_compression", "none"),
-        'exclude_tables' => variable_get("backup_migrate_exclude_tables", array()),
-        'nodata_tables' => variable_get("backup_migrate_nodata_tables", array()),
-      ),
-      'name' => t('Default Settings'),
-    );
-    $profile = backup_migrate_crud_create_item('profile', $settings);
-    $profile->save();
-    variable_set("backup_migrate_profile_id", 'default');
-
-    // Set up the default schedules.
-    if (variable_get("backup_migrate_schedule_backup_period", 0)) {
-      require_once './'. drupal_get_path('module', 'backup_migrate') .'/includes/schedules.inc';
-      $schedule = array(
-        'name' => t('Default Schedule'),
-        'profile_id' => $profile->get_id(),
-        'enabled' => 1,
-        'destination_id' => 'scheduled',
-        'period' => array('number' => variable_get("backup_migrate_schedule_backup_period", 0), 'type' => 'hours'),
-        'keep' => variable_get("backup_migrate_schedule_backup_keep", 0),
-      );
-      $schedule = backup_migrate_crud_create_item('schedule', $schedule);
-      $schedule->save();
-    }
-  }
 }
 
 /**
  * Remove variables on uninstall.
  */
 function backup_migrate_uninstall() {
-  drupal_uninstall_schema('backup_migrate');
-
   db_query("DELETE FROM {variable} WHERE name LIKE 'backup_migrate_%'");
+  db_query("DELETE FROM {variable} WHERE name LIKE 'nodesquirrel_%'");
   cache_clear_all('variables', 'cache');
 }
 
@@ -233,8 +324,6 @@ function backup_migrate_uninstall() {
  * Update from 1.x to 2.x.
  */
 function backup_migrate_update_2000() {
-  // Updating from version 1.x, need to populate the db.
-  drupal_install_schema('backup_migrate');
   _backup_migrate_setup_database_defaults();
   return array();
 }
@@ -247,16 +336,16 @@ function backup_migrate_update_2001() {
   $schema = drupal_get_schema_unprocessed('backup_migrate', 'backup_migrate_profiles');
 
   // Add the filters field to the db.
-  if (!db_column_exists('backup_migrate_profiles', 'filters')) {
-    db_add_field($ret, 'backup_migrate_profiles', 'filters', array('description' => t('The filter settings for the profile.'),'type' => 'text', 'not null' => TRUE));
+  if (!db_field_exists('backup_migrate_profiles', 'filters')) {
+    db_add_field('backup_migrate_profiles', 'filters', array('description' => t('The filter settings for the profile.'),'type' => 'text', 'not null' => TRUE));
   }
   // Add the source field
-  if (!db_column_exists('backup_migrate_profiles', 'source_id')) {
-    db_add_field($ret, 'backup_migrate_profiles', 'source_id', array('description' => t('The {backup_migrate_destination}.destination_id of the source to backup from.'), 'type' => 'varchar', 'length' => 255, 'default' => 'db', 'not null' => TRUE));
+  if (!db_field_exists('backup_migrate_profiles', 'source_id')) {
+    db_add_field('backup_migrate_profiles', 'source_id', array('description' => t('The {backup_migrate_destination}.destination_id of the source to backup from.'), 'type' => 'varchar', 'length' => 255, 'default' => 'db', 'not null' => TRUE));
   }
   // Remove the compression field.
-  if (db_column_exists('backup_migrate_profiles', 'compression')) {
-    db_drop_field($ret, 'backup_migrate_profiles', 'compression');
+  if (db_field_exists('backup_migrate_profiles', 'compression')) {
+    db_drop_field('backup_migrate_profiles', 'compression');
   }
   return $ret;
 }
@@ -279,10 +368,10 @@ function backup_migrate_update_2003() {
     'length' => 255,
     'not null' => TRUE,
     'default' => '0',
-    'description' => t('The primary identifier for a profile.'),
+    'description' => 'The primary identifier for a profile.',
   );
 
-  db_change_field($ret, 'backup_migrate_schedules', 'profile_id', 'profile_id', $spec);
+  db_change_field('backup_migrate_schedules', 'profile_id', 'profile_id', $spec);
   return $ret;
 }
 
@@ -298,21 +387,21 @@ function backup_migrate_update_2004() {
     'default' => '0',
   );
 
-  $spec['description'] = t('The primary identifier for a destination.');
-  db_change_field($ret, 'backup_migrate_destinations', 'destination_id', 'destination_id', $spec);
+  $spec['description'] = 'The primary identifier for a destination.';
+  db_change_field('backup_migrate_destinations', 'destination_id', 'destination_id', $spec);
 
-  $spec['description'] = t('The primary identifier for a profile.');
-  db_change_field($ret, 'backup_migrate_profiles', 'profile_id', 'profile_id', $spec);
+  $spec['description'] = 'The primary identifier for a profile.';
+  db_change_field('backup_migrate_profiles', 'profile_id', 'profile_id', $spec);
 
-  $spec['description'] = t('The primary identifier for a schedule.');
-  db_change_field($ret, 'backup_migrate_schedules', 'schedule_id', 'schedule_id', $spec);
+  $spec['description'] = 'The primary identifier for a schedule.';
+  db_change_field('backup_migrate_schedules', 'schedule_id', 'schedule_id', $spec);
 
   // Drop the user/pass fields as they weren't being used.
-  if (db_column_exists('backup_migrate_destinations', 'username')) {
-    db_drop_field($ret, 'backup_migrate_destinations', 'username');
+  if (db_field_exists('backup_migrate_destinations', 'username')) {
+    db_drop_field('backup_migrate_destinations', 'username');
   }
-  if (db_column_exists('backup_migrate_destinations', 'password')) {  
-    db_drop_field($ret, 'backup_migrate_destinations', 'password');
+  if (db_field_exists('backup_migrate_destinations', 'password')) {
+    db_drop_field('backup_migrate_destinations', 'password');
   }
 
   return $ret;
@@ -329,34 +418,34 @@ function backup_migrate_update_2005() {
   // Change the destination ids of the defined database sources mostly to make using them with drush friendlier.
 
   // Change the db_url:default id to simply 'db'
-  $ret[] = update_sql("UPDATE {backup_migrate_profiles} SET source_id = 'db' WHERE source_id = 'db_url:default'");
-  $ret[] = update_sql("UPDATE {backup_migrate_schedules} SET destination_id = 'db' WHERE destination_id = 'db_url:default'");
+  $ret[] = db_query("UPDATE {backup_migrate_profiles} SET source_id = 'db' WHERE source_id = 'db_url:default'");
+  $ret[] = db_query("UPDATE {backup_migrate_schedules} SET destination_id = 'db' WHERE destination_id = 'db_url:default'");
 
   // Change the defined db keys from db_url:key to db:key.
-  $ret[] = update_sql("UPDATE {backup_migrate_profiles} SET source_id = REPLACE(source_id, 'db_url:', 'db:')");
-  $ret[] = update_sql("UPDATE {backup_migrate_schedules} SET destination_id = REPLACE(destination_id, 'db_url:', 'db:')");
+  $ret[] = db_query("UPDATE {backup_migrate_profiles} SET source_id = REPLACE(source_id, 'db_url:', 'db:')");
+  $ret[] = db_query("UPDATE {backup_migrate_schedules} SET destination_id = REPLACE(destination_id, 'db_url:', 'db:')");
 
   // Add the source field to the schedule
-  if (!db_column_exists('backup_migrate_schedules', 'source_id')) {
-    db_add_field($ret, 'backup_migrate_schedules', 'source_id', array('description' => t('The db source to backup from.'), 'type' => 'varchar', 'length' => 255, 'default' => 'db', 'not null' => TRUE));
+  if (!db_field_exists('backup_migrate_schedules', 'source_id')) {
+    db_add_field('backup_migrate_schedules', 'source_id', array('description' => t('The db source to backup from.'), 'type' => 'varchar', 'length' => 255, 'default' => 'db', 'not null' => TRUE));
   }
 
   // Copy source data from profiles to schedules.
-  $result = db_query('SELECT p.source_id, s.schedule_id FROM {backup_migrate_schedules} s LEFT JOIN {backup_migrate_profiles} p ON s.profile_id = p.profile_id');
-  while ($schedule = db_fetch_array($result)) {
+  $result = db_query('SELECT p.source_id, s.schedule_id FROM {backup_migrate_schedules} s LEFT JOIN {backup_migrate_profiles} p ON s.profile_id = p.profile_id', array(), array('fetch' => PDO::FETCH_ASSOC));
+  foreach ($result as $schedule) {
     if (!$schedule['source_id']) {
       $schedule['source_id'] = 'db';
     }
-    $ret[] = update_sql("UPDATE {backup_migrate_schedules} SET source_id = '". $schedule['source_id'] ."' WHERE schedule_id = '". $schedule['profile_id'] ."'");
+    $ret[] = db_query("UPDATE {backup_migrate_schedules} SET source_id = '". $schedule['source_id'] ."' WHERE schedule_id = '". $schedule['profile_id'] ."'");
   }
 
-  if (db_column_exists('backup_migrate_profiles', 'source_id')) {
-    db_drop_field($ret, 'backup_migrate_profiles', 'source_id');
+  if (db_field_exists('backup_migrate_profiles', 'source_id')) {
+    db_drop_field('backup_migrate_profiles', 'source_id');
   }
 
   // Copy the no-data and exclude tables settings into the 'filter' field.
-  $result = db_query('SELECT * FROM {backup_migrate_profiles}');
-  while ($item = db_fetch_array($result)) {
+  $result = db_query('SELECT * FROM {backup_migrate_profiles}', array(), array('fetch' => PDO::FETCH_ASSOC));
+  foreach ($result as $item) {
     if (isset($item['nodata_tables']) && isset($item['exclude_tables'])) {
       $profile = backup_migrate_get_profile($item['profile_id']);
       $profile->filters['nodata_tables'] = unserialize($item['nodata_tables']);
@@ -364,22 +453,36 @@ function backup_migrate_update_2005() {
       $profile->save();
     }
   }
-  if (db_column_exists('backup_migrate_profiles', 'nodata_tables')) {
-    db_drop_field($ret, 'backup_migrate_profiles', 'nodata_tables');
+  if (db_field_exists('backup_migrate_profiles', 'nodata_tables')) {
+    db_drop_field('backup_migrate_profiles', 'nodata_tables');
   }
-  if (db_column_exists('backup_migrate_profiles', 'exclude_tables')) {
-    db_drop_field($ret, 'backup_migrate_profiles', 'exclude_tables');
+  if (db_field_exists('backup_migrate_profiles', 'exclude_tables')) {
+    db_drop_field('backup_migrate_profiles', 'exclude_tables');
   }
 
   return $ret;
 }
 
 /**
+ * Move the backup and migrate directory to the private directory.
+ */
+function backup_migrate_update_7200() {
+  $from = 'public://backup_migrate';
+  $to   = 'private://backup_migrate';
+  if (drupal_realpath($from) && !drupal_realpath($to)) {
+    if (!rename($from, $to)) {
+      drupal_set_message(t('Unable to move the backups directory to your private folder, please check file permissions and move the directory %from to %to', array('%from' => drupal_realpath($from), '%to' => drupal_realpath($to))), 'warning');
+    }
+  }
+}
+
+
+/**
  * Change the filename field to support 255 characters.
  */
-function backup_migrate_update_2006() {
+function backup_migrate_update_7202() {
   $ret = array();
-  db_change_field($ret, 'backup_migrate_profiles', 'filename', 'filename', array('type' => 'varchar', 'length' => 255, 'not null' => TRUE));
+  db_change_field('backup_migrate_profiles', 'filename', 'filename', array('type' => 'varchar', 'length' => 255, 'not null' => TRUE));
   return $ret;
 }
 
@@ -387,111 +490,155 @@ function backup_migrate_update_2006() {
 /**
  * Update the schedule last run times to use variables instead of saving with the schedule.
  */
-function backup_migrate_update_6200() {
-  $ret = array();
-  $result = db_query('SELECT * FROM {backup_migrate_schedules}', array());
-  while ($item = db_fetch_array($result)) {
+function backup_migrate_update_7203() {
+  $result = db_query('SELECT * FROM {backup_migrate_schedules}', array(), array('fetch' => PDO::FETCH_ASSOC));
+  foreach ($result as $item) {
     if (isset($item['last_run'])) {
       variable_set('backup_migrate_schedule_last_run_' . $item['schedule_id'], $item['last_run']);
     }
   }
-  if (db_column_exists('backup_migrate_schedules', 'last_run')) {
-    db_drop_field($ret, 'backup_migrate_schedules', 'last_run');
+  if (db_field_exists('backup_migrate_schedules', 'last_run')) {
+    db_drop_field('backup_migrate_schedules', 'last_run');
   }
-  return $ret;
 }
 
-
-
 /**
- * Disable the NodeSquirrel module if it's installed.
+ * Uninstall backup migrate files if it's installed
  */
-function backup_migrate_update_6201() {
+function backup_migrate_update_7300() {
+  if (module_exists('backup_migrate_files')) {
+    module_disable(array('backup_migrate_files'));
+    $ret[] = array(
+      'success' => true,
+      'query' => 'Disabled the Backup and Migrate Files module',
+    );
+  }
   if (module_exists('nodesquirrel')) {
     module_disable(array('nodesquirrel'));
-    drupal_set_message(t("The NodeSquirrel module was disabled. NodeSquirrel support is now built into Backup and Migrate."));
+    $ret[] = array(
+      'success' => true,
+      'query' => 'Disabled the NodeSquirrel module',
+    );
   }
-  return array();
+
+  // Add sources to the schema.
+  $schema['backup_migrate_sources'] = array(
+    'fields' => array(
+      'source_id' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '0',
+        'description' => t('The primary identifier for a source.'),
+      ),
+      'name' => array(
+        'description' => t('The name of the source.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE
+      ),
+      'type' => array(
+        'description' => t('The type of the source.'),
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE
+      ),
+      'location' => array(
+        'description' => t('The the location string of the source.'),
+        'type' => 'text',
+        'not null' => TRUE
+      ),
+      'settings' => array(
+        'description' => t('Other settings for the source.'),
+        'type' => 'text',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'serialized default' => 'a:0:{}',
+     ),
+    ),
+    'primary key' => array('source_id'),
+  );
+
+  if (!db_table_exists('backup_migrate_sources')) {
+    db_create_table('backup_migrate_sources', $schema['backup_migrate_sources']);
+  }
+
+  // Move custom destinations to sources.
+  $result = db_query("SELECT * FROM {backup_migrate_destinations} WHERE type in ('filesource', 'db')", array(), array('fetch' => PDO::FETCH_ASSOC));
+  foreach ($result as $item) {
+    $item['source_id'] = $item['destination_id'];
+    drupal_write_record('backup_migrate_source', $item);
+  }
+
+  // Change 'destination' settings to 'source' settings
+  $result = db_query('SELECT * FROM {backup_migrate_profiles}', array(), array('fetch' => PDO::FETCH_ASSOC));
+  foreach ($result as $item) {
+    $item['filters'] = unserialize($item['filters']);
+    $item['filters']['sources'] = $item['filters']['destinations'];
+    unset($item['filters']['destinations']);
+    drupal_write_record('backup_migrate_profiles', $item, array('profile_id'));
+  }
 }
 
 /**
- * Increase the length of all ids to 255.
+ * Switch the cron switch to text.
  */
-function backup_migrate_update_6205() {
-  $schema['backup_migrate_profiles'] = array(
-    'fields' => array(
-      'profile_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
-      ),
-      'filename' => array(
-        'description' => t('The base pattern (including unreplaced tokens) for the name of the backup file.'),
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE
-      ),
-    ),
-  );
-  $schema['backup_migrate_destinations'] = array(
-    'fields' => array(
-      'destination_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
-      ),
-    ),
-  );
-  $schema['backup_migrate_schedules'] = array(
-    'fields' => array(
-      'schedule_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
-      ),
-      'source_id' => array(
-        'description' => t('The {backup_migrate_destination}.destination_id of the source to backup from.'),
-        'type' => 'varchar',
-        'length' => 255,
-        'default' => 'db',
-        'not null' => TRUE
-      ),
-      'destination_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '0',
-        'description' => t('The {backup_migrate_destination}.destination_id of the destination to back up to.'),
-      ),
-      'profile_id' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '0',
-        'description' => t('The primary identifier for a profile.'),
-      ),
-    ),
-  );
+function backup_migrate_update_7301() {
+  db_change_field('backup_migrate_schedules', 'cron', 'cron', array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'builtin'));
+  db_add_field('backup_migrate_schedules', 'cron_schedule', array('description' => 'The cron schedule to run on.', 'type' => 'varchar', 'length' => 255, 'default' => '0 4 * * *', 'not null' => TRUE));
+}
 
-  $fields = array(
-    'backup_migrate_profiles' => array('profile_id'),
-    'backup_migrate_destinations' => array('destination_id'),
-    'backup_migrate_schedules' => array('schedule_id', 'source_id', 'destination_id', 'profile_id'),
+/**
+ * Add a second destination to schedules.
+ */
+function backup_migrate_update_7302() {
+  db_add_field('backup_migrate_schedules', 'copy_destination_id', 
+    array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '0',
+        'description' => 'A second {backup_migrate_destination}.destination_id of the destination to copy the backup to.',
+      )
   );
+}
 
-  $ret = array();
+/**
+ * Add a serial id field to all tables to allow them to be ctools exportable.
+ */
+function backup_migrate_update_7303() {
+  foreach (array('backup_migrate_sources' => 'source_id', 'backup_migrate_destinations' => 'destination_id', 'backup_migrate_schedules' => 'schedule_id', 'backup_migrate_profiles' => 'profile_id') as $table => $id) {
+    // Take the primary key status from the machine name so it can be renamed
+    // A serial field must be defined as a key, so make a temporary index.
+    // See: https://www.drupal.org/node/190027
+    db_add_index($table, 'temp', array($id));
+    db_drop_primary_key($table);
+    // Drop our temporary index.
+    db_drop_index($table, 'temp');
 
-  // Update the length of each of the ids
-  foreach ($schema as $table => $ids) {
-    foreach ($ids['fields'] as $field => $spec) {
-      db_change_field($ret, $table, $field, $field, $spec);
-    }
+    // Switch the name of the id to 'machine_name' to be more ctools standard
+    db_change_field($table, $id, 'machine_name', array('type' => 'varchar', 'length' => 32, 'not null' => TRUE));
+
+    // Add a serial ID
+    db_add_field($table, $id, 
+      array(
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+          'no export' => TRUE, // Do not export database-only keys.
+        ),
+        array('primary key' => array($id))
+    );
   }
-  return $ret;
+  foreach (array('backup_migrate_sources', 'backup_migrate_destinations') as $table) {
+    db_change_field($table, 'type', 'subtype', array('type' => 'varchar', 'length' => 32, 'not null' => TRUE));
+  }
+}
+
+/**
+ * Update all schedules to use the built in cron if none is specified.
+ */
+function backup_migrate_update_7304() {
+  db_query("UPDATE {backup_migrate_schedules} SET cron = 'builtin' WHERE cron = '0'");
 }

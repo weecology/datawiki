@@ -6,26 +6,26 @@
  */
 
 /**
- * Form builder function; generate retroactive transliteration confirm form.
+ * Form builder function; generates retroactive transliteration confirm form.
  *
  * @see transliteration_retroactive_submit()
  * @ingroup forms
  */
 function transliteration_retroactive() {
-  if (!$query = transliteration_file_query(TRUE)) {
+  if (!$query = transliteration_file_query()) {
     drupal_set_message(t('Database not supported.'), 'error');
-    $form['description']['#value'] = t('Retroactive transliteration is not supported for the database system of this Drupal installation. If you think this should be fixed please <a href="@issues-url">file an issue</a> in the project issue queue.', array('@issues-url' => 'http://drupal.org/project/issues/transliteration'));
+    $form['description']['#markup'] = t('Retroactive transliteration is not supported for the database system of this Drupal installation. If you think this should be fixed please <a href="@issues-url">file an issue</a> in the project issue queue.', array('@issues-url' => 'http://drupal.org/project/issues/transliteration'));
     return $form;
   }
 
-  $count = db_result(db_query($query));
+  $count = $query->countQuery()->execute()->fetchColumn();
   if (!$count) {
     drupal_set_message(t('Transliteration is not required.'), 'status');
-    $form['description']['#value'] = t('There are currently no files names containing non-ASCII characters.');
+    $form['description']['#markup'] = t('There are currently no files names containing non-ASCII characters.');
     return $form;
   }
 
-  $form['#redirect'] = 'admin/settings/file-system/settings';
+  $form['#redirect'] = 'admin/config/media/file-system/settings';
   $question = t('Are you sure you want to transliterate existing file names?');
 
   // Generate a sample list.
@@ -34,65 +34,87 @@ function transliteration_retroactive() {
     t('Original file name'),
     t('Transliterated file name')
   );
-  $result = db_query_range(transliteration_file_query(), 0, 10);
-  while($file = db_fetch_object($result)) {
-    $filename = basename($file->filepath);
-    $rows[] = array(l($filename, file_create_url($file->filepath)), transliteration_clean_filename($filename));
+  foreach ($query->range(0, 10)->execute() as $file) {
+    $filename = basename($file->uri);
+    $rows[] = array(l($filename, file_create_url($file->uri)), transliteration_clean_filename($filename));
   }
   $description = '<p><strong>' . t('The database currently lists @x_filenames containing non-ASCII characters.', array('@x_filenames' => format_plural($count, '1 file name', '@count file names'))) . '</strong><br />';
-  $description .= t('This count might be inaccurate, though, since some files may not need to be renamed.') . '</p>';
-  $description .= theme('table', $header, $rows);
+  $description .= t('This count might be inaccurate, though, since some files may not need to be renamed. For example, off-site files will never be changed.') . '</p>';
+  $description .= theme('table', array('header' => $header, 'rows' => $rows));
   if ($count > 10) {
     $description .= '<p>' . t('Note: table shows only the first 10 entries.') . '</p>';
   }
-  $description .= '<p>' . t('<strong>WARNING:</strong> if you have manually entered image or file paths in text fields (for example, text areas or WYSIWYG editors), renaming the files will break these references. Since there is currently no automated way to also fix referenced files in textual contents, it is a very good idea to backup the database and %files directory beforehand. Modules accessing files using their internal system ids are not affected.', array('%files' => file_directory_path())) . '</p>';
+  $description .= '<p>' . t('<strong>WARNING:</strong> if you have manually entered image or file paths in text fields (for example, text areas or WYSIWYG editors), renaming the files will break these references. Since there is currently no automated way to also fix referenced files in textual contents, it is a very good idea to backup the database and %files directory beforehand. Modules accessing files using their internal system ids are not affected.', array('%files' => drupal_realpath(file_default_scheme() . '://'))) . '</p>';
   $description .= '<p style="color: red; font-weight: bold; font-size: 18px;">' . t('This action cannot be undone.') . '</p>';
 
-  return confirm_form($form, $question, 'admin/settings/file-system/settings', $description, t('Transliterate'));
+  return confirm_form($form, $question, 'admin/config/media/file-system/settings', $description, t('Transliterate'));
 }
 
 /**
- * Form submit function; retroactively transliterate existing file names.
+ * Form submit function; retroactively transliterates existing file names.
  *
  * @see transliteration_retroactive()
  */
 function transliteration_retroactive_submit($form, &$form_state) {
   $count = 0;
   $errors = array();
-  $result = db_query(transliteration_file_query());
+  $result = transliteration_file_query()->execute();
 
-  while ($file = db_fetch_object($result)) {
-    if (!file_exists('./'. $file->filepath)) {
-      // Missing file.
-      $errors[] = $file->filepath;
+  while ($file = $result->fetchObject()) {
+    $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
+    $scheme = file_uri_scheme($file->uri);
+
+    // Missing implementation.
+    if (!$wrapper) {
+      $errors[] = file_uri_target($file->uri);
+      continue;
+    }
+
+    // Skip non-writable stream wrappers.
+    $writeable_stream_wrappers = file_get_stream_wrappers(STREAM_WRAPPERS_WRITE);
+    if (!isset($writeable_stream_wrappers[$scheme])) {
+      continue;
+    }
+
+    // Missing file.
+    if (!file_exists($wrapper->realpath())) {
+      $errors[] = file_uri_target($file->uri);
       continue;
     }
 
     // Sanitize file name.
-    $filename = transliteration_clean_filename(basename($file->filepath));
-    // Build destination path.
-    $destination = dirname($file->filepath) . '/' . $filename;
-    // Store original source path.
-    $source = $file->filepath;
+    $filename = transliteration_clean_filename(basename($file->uri));
+    // Build destination URI.
+    $destination = file_stream_wrapper_uri_normalize(drupal_dirname($file->uri) . '/' . $filename);
+    $destination = file_destination($destination, FILE_EXISTS_RENAME);
 
     // Rename and update the file record accordingly.
-    if (file_move($file->filepath, $destination, FILE_EXISTS_RENAME)) {
-      db_query("UPDATE {files} SET filepath = '%s' WHERE fid = %d", $file->filepath, $file->fid);
+    if ($wrapper->rename($file->uri, $destination)) {
       // If possible, add a url redirect to handle old URL references.
-      if (module_exists('path_redirect')) {
-        $redirect = array('source' => $source, 'redirect' => $file->filepath);
-        path_redirect_save($redirect);
+      if (module_exists('redirect')) {
+        $redirect = new stdClass();
+        redirect_object_prepare($redirect, array(
+          'source' => $wrapper->getDirectoryPath() . '/' . file_uri_target($file->uri),
+          'redirect' => $wrapper->getDirectoryPath() . '/' . file_uri_target($destination),
+          'status_code' => 301)
+        );
+        redirect_save($redirect);
       }
+      $file->uri = $destination;
+      // Don't use file_save() as it modifies the timestamp.
+      drupal_write_record('file_managed', $file, 'fid');
+      // Inform modules that the file has been updated.
+      module_invoke_all('file_update', $file);
       $count++;
     }
     else {
-      $errors[] = $file->filepath;
+      $errors[] = file_uri_target($file->uri);
     }
   }
 
   if ($errors) {
     $message = t('Not all file names could be converted. The following files could not be accessed and have been ignored:');
-    $message .= theme('item_list', $errors);
+    $message .= theme('item_list', array('items' => $errors));
     drupal_set_message($message, 'error');
   }
   else {
@@ -104,15 +126,15 @@ function transliteration_retroactive_submit($form, &$form_state) {
 }
 
 /**
- * Build a query that returns all file names from the database containing non-ASCII characters.
+ * Builds a query that returns all file names from the database containing non-ASCII characters.
  *
- * @param $count
- *   Set to TRUE to return a count query.
+ * @return
+ *   SelectQuery
  */
-function transliteration_file_query($count = FALSE) {
+function transliteration_file_query() {
   // Regular expressions are not supported by Drupal's database layer and
   // operators differ between manufacturers.
-  switch ($GLOBALS['db_type']) {
+  switch (db_driver()) {
     case 'mysql':
     case 'mysqli':
       $operator = 'NOT REGEXP';
@@ -127,11 +149,16 @@ function transliteration_file_query($count = FALSE) {
       $regex = '/[a-z0-9_.-]+$';
       break;
 
+    case 'mssql':
+      $operator = 'LIKE';
+      $regex = '%[^a-z0-9_.-]%';
+      break;
+
     default:
       return FALSE;
   }
 
-  $fields = ($count ? 'COUNT(*)' : '*');
-  return "SELECT $fields FROM {files} WHERE filepath $operator '$regex'";
+  return db_select('file_managed')
+    ->fields('file_managed')
+    ->condition('uri', $regex, $operator);
 }
-
