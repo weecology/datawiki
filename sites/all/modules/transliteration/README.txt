@@ -20,7 +20,7 @@ Bug reports, feature suggestions and latest developments:
    to those files in any contents, these links will break since the original
    files are renamed. Therefore it is a good idea to test the conversion
    first on a copy of your web site. You'll find the retroactive conversion at
-   Site configuration >> File system >> Transliteration.
+   Configuration and modules >> Media >> File system >> Transliteration.
 
 
 -- CONFIGURATION --
@@ -28,7 +28,7 @@ Bug reports, feature suggestions and latest developments:
 This module doesn't require special permissions.
 
 This module can be configured from the File system configuration page
-(Site configuration >> File system >> Settings).
+(Configuration and modules >> Media >> File system >> Settings).
 
 - Transliterate file names during upload: If you need more control over the
   resulting file names you might want to disable this feature here and install
