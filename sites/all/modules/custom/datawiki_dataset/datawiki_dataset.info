@@ -1,0 +1,4 @@
+name = Datawiki dataset content type updates
+description = Deploys updates to dataset content type
+core = 7.x
+package = Datawiki Custom
