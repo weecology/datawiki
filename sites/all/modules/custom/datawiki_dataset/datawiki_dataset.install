@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * Implementation of hook_enable
+ */
+
+function datawiki_dataset_enable() {
   $new_content_type = array(
     'type' => 'dataset',
     'name' => 'Dataset',
@@ -172,7 +177,7 @@
           'hour' => 0,
           'minute' => 0,
           'second' => 0,
-          )
+          ),
         'todate' => 'required',
         ),
       'widget' => array(
@@ -402,24 +407,14 @@
       ),
     ); // end field list
 
-$new_fields_names_only = array_keys($new_fields);
-$new_content_type_name = $new_content_type['type'];
-/*
- * Implementation of hook_install
- */
-
-datawiki_dataset_install() {
-
   _create_vocabs($new_vocabs);
   _create_content_type($new_content_type);
   _add_fields($new_content_type,$new_fields);
-
-} //install
+}
 
 // Bulk create new taxonomy vocabularies
 
 function _create_vocabs($vocabs) {
-
   foreach ($vocabs as $vocab_name => $name) {
     if(!taxonomy_vocabulary_machine_name_load($vocab_name)){
         $vocab = new stdClass();
@@ -478,10 +473,15 @@ function _add_fields($content_type, $field_definitions) {
 
   } // _add_fields
 
-datawiki_dataset_uninstall() {
+function datawiki_dataset_uninstall() {
+
+  $new_field_names = array(
+  'field_get_data_url','field_get_data_text','field_georeferenced_is','field_collection_site_geo','field_collection_site','field_image','field_timespan_date','field_time_series_is','field_time_series_date','taxonomy_vocabulary_frequency','field_data_collection_text','field_data_collected_text','field_known_issues_text','field_best_practices_text','field_conditions_text','field_citation_text','taxonomy_vocabulary_license','taxonomy_vocabulary_install','field_install_code_text','field_supplemental_text','field_publications_text','field_miscellaneous_text',
+  );
+  $new_content_type_name = 'dataset';
 
   // Delete the new fields
-  foreach ($new_fields_names_only as $machine_name) {
+  foreach ($new_field_names as $machine_name) {
     field_delete_field($machine_name);
     dpm('deleted ' . $machine_name);
     field_purge_batch(1);
@@ -489,4 +489,5 @@ datawiki_dataset_uninstall() {
 
   // Delete the new content type
   node_type_delete($new_content_type_name);
+  dpm('deleted the content type');
 }
