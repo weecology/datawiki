@@ -1,4 +1,10 @@
 name = Datawiki dataset content type updates
-description = Deploys updates to dataset content type
+description = Creates new dataset content type
 core = 7.x
 package = Datawiki Custom
+dependencies[] = link
+dependencies[] = geofield
+dependencies[] = date
+dependencies[] = date_popup_timepicker
+dependencies[] = autocomplete_deluxe
+dependencies[] = field_group
