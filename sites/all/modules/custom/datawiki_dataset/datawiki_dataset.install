@@ -1,0 +1,492 @@
+<?php
+
+  $new_content_type = array(
+    'type' => 'dataset',
+    'name' => 'Dataset',
+    'base' => 'node_content',
+    'description' => 'New dataset content type for review',
+    'custom' => TRUE,
+    );
+  $new_vocabs = array(
+    'vocabulary_frequency' => 'Sampling Frequency',
+    'vocabulary_license' => 'License',
+    'vocabulary_install' => 'Install package',
+    );
+  $new_fields = array(
+    'field_get_data_url' => array(
+      'name' => 'field_get_data_url',
+      'type' => 'link_field',
+      'label' => 'Get Data (URL)',
+      'description' => 'URL to request or download',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 11,
+          ),
+        ),
+      ),
+    'field_get_data_text' => array(
+      'name' => 'field_get_data_text',
+      'type' => 'text_long',
+      'label' => 'Get Data (text)',
+      'description' => 'Reference for data',
+      'cardinality' => 1,
+      'settings' => array(
+        'text_processing' => 1,
+        ),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 12,
+          ),
+        ),
+      ),
+    'field_georeferenced_is' => array(
+      'name' => 'field_georeferenced_is',
+      'type' => 'list_boolean',
+      'label' => 'Sites georeferenced?',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => 'Sites georeferenced',
+          ),
+        ),
+      'widget' => array(
+        'type' => 'options_onoff',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 14,
+          ),
+        ),
+      ),
+    'field_collection_site_geo' => array(
+      'name' => 'field_collection_site_geo',
+      'type' => 'geofield',
+      'label' => '',
+      'description' => 'Collection site(s) lat/long, if available',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(
+        'type' => 'geofield_latlon',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 15,
+          ),
+        ),
+      ),
+    'field_collection_site' => array(
+      'name' => 'field_collection_site',
+      'type' => 'text',
+      'label' => 'Collection site(s)',
+      'description' => 'Collection site location(s) (if no lat/long)',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 16,
+          ),
+        ),
+      ),
+    'field_image' => array(
+      'name' => 'field_image',
+      'type' => 'image',
+      'label' => 'Image(s)',
+      'description' => 'Upload a representative image or images',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 17,
+          ),
+        ),
+      ),
+    'field_timespan_date' => array(
+      'name' => 'field_timespan_date',
+      'type' => 'datetime',
+      'label' => 'Collection timespan',
+      'description' => 'When were the data collected?',
+      'cardinality' => -1,
+      'settings' => array(
+        'granularity' => array(
+          'month' => 'month',
+          'day' => 'day',
+          'year' => 'year',
+          'hour' => 0,
+          'minute' => 0,
+          'second' => 0,
+          ),
+        'todate' => 'required',
+        ),
+      'widget' => array(
+        'type' => 'date_popup',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 18,
+          'settings' => array(
+            'fromto' => 'both',
+            ),
+          ),
+        ),
+      ),
+    'field_time_series_is' => array(
+      'name' => 'field_georeferenced_is',
+      'type' => 'list_boolean',
+      'label' => '',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => 'Includes time series',
+          ),
+        ),
+      'widget' => array(
+        'type' => 'options_onoff',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 19,
+          ),
+        ),
+      ),
+    'field_time_series_date' => array(
+      'name' => 'field_time_series_date',
+      'type' => 'datetime',
+      'label' => 'Time series span',
+      'description' => 'Start and end of the time series',
+      'cardinality' => -1,
+      'settings' => array(
+        'granularity' => array(
+          'month' => 'month',
+          'day' => 'day',
+          'year' => 'year',
+          'hour' => 0,
+          'minute' => 0,
+          'second' => 0,
+          )
+        'todate' => 'required',
+        ),
+      'widget' => array(
+        'type' => 'date_popup',
+        'active' => 1,
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 20,
+          'settings' => array(
+            'fromto' => 'both',
+            ),
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_frequency' => array(
+      'field_name' => 'taxonomy_vocabulary_frequency',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Sampling Frequency',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_frequency',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 21,
+          ),
+        ),
+      ),
+    'field_data_collection_text' => array(
+      'name' => 'field_data_collection_text',
+      'type' => 'text_long',
+      'label' => 'Data collection summary',
+      'description' => 'Include details on sampling protocol, methods, spatial scales, technologies used, etc.',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 22,
+          ),
+        ),
+      ),
+    'field_data_collected_text' => array(
+      'name' => 'field_data_collected_text',
+      'type' => 'text',
+      'label' => 'Data collected',
+      'description' => 'Categories of observations and measurements',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 23,
+          ),
+        ),
+      ),
+    'field_known_issues_text' => array(
+      'name' => 'field_known_issues_text',
+      'type' => 'text_long',
+      'label' => 'Known issues',
+      'description' => 'Weaknesses, limitations, errors, caveats, etc.',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 24,
+          ),
+        ),
+      ),
+    'field_best_practices_text' => array(
+      'name' => 'field_best_practices_text',
+      'type' => 'text_long',
+      'label' => 'Best practices',
+      'description' => 'Tips for separating the wheat from the chaff',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 25,
+          ),
+        ),
+      ),
+    'field_conditions_text' => array(
+      'name' => 'field_conditions_text',
+      'type' => 'text_long',
+      'label' => 'Conditions for use',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 26,
+          ),
+        ),
+      ),
+    'field_citation_text' => array(
+      'name' => 'field_citation_text',
+      'type' => 'text',
+      'label' => 'Citation or Distributing Author',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 27,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_license' => array(
+      'field_name' => 'taxonomy_vocabulary_license',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'License',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => 'vocabulary_license',
+            'parent' => 0
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 28,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_install' => array(
+      'field_name' => 'taxonomy_vocabulary_install',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Access with R, Python or other package',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => 'vocabulary_install',
+            'parent' => 0
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 29,
+          ),
+        ),
+      ),
+    'field_install_code_text' => array(
+      'name' => 'field_install_code_text',
+      'type' => 'text',
+      'label' => 'Install code',
+      'description' => 'Paste install code here',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 30,
+          ),
+        ),
+      ),
+    'field_supplemental_text' => array(
+      'name' => 'field_supplemental_text',
+      'type' => 'text_long',
+      'label' => 'Supplemental resources',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 31,
+          ),
+        ),
+      ),
+    'field_publications_text' => array(
+      'name' => 'field_publications_text',
+      'type' => 'text',
+      'label' => 'Publications that use this data',
+      'description' => '',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 32,
+          ),
+        ),
+      ),
+    'field_miscellaneous_text' => array(
+      'name' => 'field_miscellaneous_text',
+      'type' => 'text',
+      'label' => 'Citation or Distributing Author',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 33,
+          ),
+        ),
+      ),
+    ); // end field list
+
+$new_fields_names_only = array_keys($new_fields);
+$new_content_type_name = $new_content_type['type'];
+/*
+ * Implementation of hook_install
+ */
+
+datawiki_dataset_install() {
+
+  _create_vocabs($new_vocabs);
+  _create_content_type($new_content_type);
+  _add_fields($new_content_type,$new_fields);
+
+} //install
+
+// Bulk create new taxonomy vocabularies
+
+function _create_vocabs($vocabs) {
+
+  foreach ($vocabs as $vocab_name => $name) {
+    if(!taxonomy_vocabulary_machine_name_load($vocab_name)){
+        $vocab = new stdClass();
+        $vocab->name = $name;
+        $vocab->machine_name = $vocab_name;
+        taxonomy_vocabulary_save($vocab);
+      } //if
+    } //foreach
+} //_create_vocabs
+
+function _create_content_type($content_type_definition) {
+
+  $content_type = node_type_set_defaults($content_type_definition);
+  node_type_save($content_type);
+}
+
+function _add_fields($content_type, $field_definitions) {
+
+  foreach ($field_definitions as $machine_name => $field_info) {
+
+    if (!field_info_field($machine_name)) {
+      $field = array(
+          'field_name' => $machine_name,
+          'type' => $field_info['type'],
+          'cardinality' => $field_info['cardinality'],
+          'settings' => $field_info['settings'],
+          );
+      field_create_field($field);
+      dpm('created ' . $machine_name);
+    }
+    else {
+      dpm($machine_name . ' already exists!');
+    }
+
+    $bundle = $content_type['type'];
+
+    // Create the instance on the bundle.
+    if ((field_info_field($machine_name)) && (!field_info_instance('node',$machine_name,$bundle))) {
+
+      $instance = array(
+        'field_name' => $machine_name,
+        'entity_type' => 'node',
+        'label' => $field_info['label'],
+        'description' => $field_info['description'],
+        'bundle' => $bundle,
+        'settings' => $field_info['settings'],
+        'widget' => $field_info['widget'],
+        'display' => $field_info['display'],
+        );
+
+      field_create_instance($instance);
+      dpm($machine_name . ' added to ' . $instance['bundle']);
+      } // if
+
+    } // foreach
+
+  } // _add_fields
+
+datawiki_dataset_uninstall() {
+
+  // Delete the new fields
+  foreach ($new_fields_names_only as $machine_name) {
+    field_delete_field($machine_name);
+    dpm('deleted ' . $machine_name);
+    field_purge_batch(1);
+  }
+
+  // Delete the new content type
+  node_type_delete($new_content_type_name);
+}
