@@ -18,6 +18,189 @@ function datawiki_dataset_enable() {
     'vocabulary_install' => 'Install package',
     );
   $new_fields = array(
+    'body' => array(
+      'name' => 'body',
+      'type' => 'text_with_summary',
+      'label' => 'Overview',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'text_processing' => 1,
+        ),
+      'widget' => array(
+        'settings' => array(
+          'rows' => 5,
+          'summary_rows' => 2,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 10,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_group' => array(
+      'field_name' => 'taxonomy_vocabulary_group',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Taxonomic Group',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_2',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 2,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_level' => array(
+      'field_name' => 'taxonomy_vocabulary_level',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Ecosystem level',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_6',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 3,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_scale' => array(
+      'field_name' => 'taxonomy_vocabulary_scale',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Spatial scale',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_5',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 4,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_type' => array(
+      'field_name' => 'taxonomy_vocabulary_type',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Data type',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_3',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 5,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_biome' => array(
+      'field_name' => 'taxonomy_vocabulary_biome',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Biome',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_8',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 6,
+          ),
+        ),
+      ),
+    'taxonomy_vocabulary_access' => array(
+      'field_name' => 'taxonomy_vocabulary_access',
+      'type' => 'taxonomy_term_reference',
+      'label' => 'Access to data',
+      'description' => '',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'vocabulary_9',
+            'parent' => 0,
+            ),
+          ),
+        ),
+      'widget' => array(
+        'type' => 'autocomplete_deluxe_taxonomy',
+        'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
+        ),
+      'display' => array(
+        'default' => array(
+          'weight' => 7,
+          ),
+        ),
+      ),
     'field_get_data_url' => array(
       'name' => 'field_get_data_url',
       'type' => 'link_field',
@@ -39,7 +222,7 @@ function datawiki_dataset_enable() {
       'description' => 'Reference for data',
       'cardinality' => 1,
       'settings' => array(
-        'text_processing' => 1,
+        'text_processing' => 0,
         ),
       'widget' => array(),
       'display' => array(
@@ -132,6 +315,9 @@ function datawiki_dataset_enable() {
         ),
       'widget' => array(
         'type' => 'date_popup',
+        'active' => 1,
+        'settings' => array(
+          'year_range' => '-50:0',)
         ),
       'display' => array(
         'default' => array(
@@ -183,6 +369,8 @@ function datawiki_dataset_enable() {
       'widget' => array(
         'type' => 'date_popup',
         'active' => 1,
+        'settings' => array(
+          'year_range' => '-50:0',)
         ),
       'display' => array(
         'default' => array(
@@ -210,6 +398,9 @@ function datawiki_dataset_enable() {
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
         'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
         ),
       'display' => array(
         'default' => array(
@@ -318,6 +509,9 @@ function datawiki_dataset_enable() {
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
         'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
         ),
       'display' => array(
         'default' => array(
@@ -342,6 +536,9 @@ function datawiki_dataset_enable() {
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
         'module' => 'autocomplete_deluxe',
+        'settings' => array(
+          'size' => 25,
+          ),
         ),
       'display' => array(
         'default' => array(
@@ -351,7 +548,7 @@ function datawiki_dataset_enable() {
       ),
     'field_install_code_text' => array(
       'name' => 'field_install_code_text',
-      'type' => 'text',
+      'type' => 'text_long',
       'label' => 'Install code',
       'description' => 'Paste install code here',
       'cardinality' => 1,
@@ -402,6 +599,23 @@ function datawiki_dataset_enable() {
       'display' => array(
         'default' => array(
           'weight' => 33,
+          ),
+        ),
+      ),
+    'upload' => array(
+      'name' => 'upload',
+      'type' => 'file',
+      'label' => 'Attached files',
+      'description' => '',
+      'cardinality' => -1,
+      'settings' => array(
+        'file_extensions' => 'txt json csv pdf xls',
+        'max_filesize' => '10 MB',
+        ),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 34,
           ),
         ),
       ),
@@ -476,7 +690,7 @@ function _add_fields($content_type, $field_definitions) {
 function datawiki_dataset_uninstall() {
 
   $new_field_names = array(
-  'field_get_data_url','field_get_data_text','field_georeferenced_is','field_collection_site_geo','field_collection_site','field_image','field_timespan_date','field_time_series_is','field_time_series_date','taxonomy_vocabulary_frequency','field_data_collection_text','field_data_collected_text','field_known_issues_text','field_best_practices_text','field_conditions_text','field_citation_text','taxonomy_vocabulary_license','taxonomy_vocabulary_install','field_install_code_text','field_supplemental_text','field_publications_text','field_miscellaneous_text',
+  'taxonomy_vocabulary_group','taxonomy_vocabulary_level','taxonomy_vocabulary_scale','taxonomy_vocabulary_type','taxonomy_vocabulary_biome','taxonomy_vocabulary_access','field_get_data_url','field_get_data_text','field_georeferenced_is','field_collection_site_geo','field_collection_site','field_image','field_timespan_date','field_time_series_is','field_time_series_date','taxonomy_vocabulary_frequency','field_data_collection_text','field_data_collected_text','field_known_issues_text','field_best_practices_text','field_conditions_text','field_citation_text','taxonomy_vocabulary_license','taxonomy_vocabulary_install','field_install_code_text','field_supplemental_text','field_publications_text','field_miscellaneous_text',
   );
   $new_content_type_name = 'dataset';
 
