@@ -235,12 +235,12 @@ function datawiki_dataset_enable() {
       'name' => 'field_georeferenced_is',
       'type' => 'list_boolean',
       'label' => 'Sites georeferenced?',
-      'description' => '',
+      'description' => 'Sites georeferenced?',
       'cardinality' => 1,
       'settings' => array(
         'allowed_values' => array(
           0 => '',
-          1 => 'Sites georeferenced',
+          1 => 'Yes',
           ),
         ),
       'widget' => array(
@@ -329,7 +329,7 @@ function datawiki_dataset_enable() {
         ),
       ),
     'field_time_series_is' => array(
-      'name' => 'field_georeferenced_is',
+      'name' => 'field_time_series_is',
       'type' => 'list_boolean',
       'label' => '',
       'description' => '',
