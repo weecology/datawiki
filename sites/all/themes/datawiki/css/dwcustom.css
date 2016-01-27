@@ -31,3 +31,17 @@ ul.primary li a {
   padding: 0.5em 1em;
 }
 
+/* Update buttons on node edit forms */
+
+.field-add-more-submit {
+  float: right;
+}
+
+/* */
+.link-field-columns {
+  width: 45%;
+}
+
+.link-field-column .form-text {
+  width: 80%;
+}
