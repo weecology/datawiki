@@ -5,7 +5,7 @@ version = VERSION
 core = 7.x
 
 stylesheets[all][] = color/colors.css
-stylesheets[all][] = dwcustom.css
+stylesheets[all][] = css/dwcustom.css
 
 regions[pre_header_first] = Pre Header First
 regions[pre_header_second] = Pre Header Second
