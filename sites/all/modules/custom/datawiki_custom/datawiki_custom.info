@@ -1,0 +1,4 @@
+name = Datawiki menu
+description = Customizations to main menu
+core = 7.x
+package = Datawiki Custom

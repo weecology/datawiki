@@ -1,0 +1,9 @@
+<?php
+
+
+// Moves existing My Account link to main menu
+function datawiki_custom_menu_alter(&$items) {
+  if ($items['user/%user']) {
+    $items['user']['menu_name'] = 'main-menu';
+  }
+}
