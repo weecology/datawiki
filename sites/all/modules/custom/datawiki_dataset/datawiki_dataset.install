@@ -222,7 +222,7 @@ function datawiki_dataset_enable() {
       'description' => 'Reference for data',
       'cardinality' => 1,
       'settings' => array(
-        'text_processing' => 0,
+        'text_processing' => 1,
         ),
       'widget' => array(),
       'display' => array(
@@ -414,7 +414,9 @@ function datawiki_dataset_enable() {
       'label' => 'Data collection summary',
       'description' => 'Include details on sampling protocol, methods, spatial scales, technologies used, etc.',
       'cardinality' => 1,
-      'settings' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -428,7 +430,9 @@ function datawiki_dataset_enable() {
       'label' => 'Data collected',
       'description' => 'Categories of observations and measurements',
       'cardinality' => -1,
-      'settings' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -442,7 +446,9 @@ function datawiki_dataset_enable() {
       'label' => 'Known issues',
       'description' => 'Weaknesses, limitations, errors, caveats, etc.',
       'cardinality' => 1,
-      'settings' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -456,7 +462,9 @@ function datawiki_dataset_enable() {
       'label' => 'Best practices',
       'description' => 'Tips for separating the wheat from the chaff',
       'cardinality' => 1,
-      'settings' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -470,8 +478,9 @@ function datawiki_dataset_enable() {
       'label' => 'Conditions for use',
       'description' => '',
       'cardinality' => 1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 26,
@@ -484,8 +493,9 @@ function datawiki_dataset_enable() {
       'label' => 'Citation or Distributing Author',
       'description' => '',
       'cardinality' => 1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 27,
@@ -566,8 +576,9 @@ function datawiki_dataset_enable() {
       'label' => 'Supplemental resources',
       'description' => '',
       'cardinality' => 1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 31,
@@ -580,8 +591,9 @@ function datawiki_dataset_enable() {
       'label' => 'Publications that use this data',
       'description' => '',
       'cardinality' => -1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 32,
@@ -594,8 +606,9 @@ function datawiki_dataset_enable() {
       'label' => 'Citation or Distributing Author',
       'description' => '',
       'cardinality' => 1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'text_processing' => 1,
+        ),      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 33,
