@@ -1,9 +1,22 @@
 <?php
 
 
-// Moves existing My Account link to main menu
+// Shortens titles of tabs on the user primary tabs menu
+
 function datawiki_custom_menu_alter(&$items) {
+  // Moves existing My Account link to main menu
+
   if ($items['user/%user']) {
     $items['user']['menu_name'] = 'main-menu';
   }
+
+  // Shortens titles of tabs on the user primary tabs menu
+  if ($items['user/%user/notify']) {
+    $items['user/%user/notify']['title'] = 'Notifications';
+  }
+  if ($items['user/%user/openid']) {
+    $items['user/%user/openid']['title'] = 'OpenID';
+  }
 }
+
+
