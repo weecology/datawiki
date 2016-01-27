@@ -1,0 +1,33 @@
+/* Custom CSS for ecologicaldata.org */
+
+/*ul.primary li a {
+  margin: .1em;
+  padding: 0.5em;
+}*/
+
+/*Make edit and revision tabs larger on all pages*/
+ul.primary {
+  white-space: nowrap;
+  padding-bottom: .5em;
+}
+
+ul.primary li {
+  display: inline-block;
+}
+
+ul.primary li a {
+  margin: .2em;
+  padding: .5em 1em;
+}
+
+/* Customizations to tabs on user page only */
+
+.page-user- ul.primary {
+  padding-left: 0;
+  padding-bottom: 0.5em;
+}
+
+.page-user- ul.primary li a {
+  padding: 0.5em 1em;
+}
+
