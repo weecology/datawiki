@@ -255,9 +255,9 @@ function datawiki_dataset_enable() {
     'field_collection_site_geo' => array(
       'name' => 'field_collection_site_geo',
       'type' => 'geofield',
-      'label' => '',
+      'label' => 'Collection site lat/long, if available',
       'description' => 'Collection site(s) lat/long, if available',
-      'cardinality' => 1,
+      'cardinality' => -1,
       'settings' => array(),
       'widget' => array(
         'type' => 'geofield_latlon',
@@ -332,7 +332,7 @@ function datawiki_dataset_enable() {
       'name' => 'field_time_series_is',
       'type' => 'list_boolean',
       'label' => '',
-      'description' => '',
+      'description' => 'Do these data include a time series?',
       'cardinality' => 1,
       'settings' => array(
         'allowed_values' => array(
