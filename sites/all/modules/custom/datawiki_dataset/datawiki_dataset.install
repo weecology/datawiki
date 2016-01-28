@@ -234,8 +234,8 @@ function datawiki_dataset_enable() {
     'field_georeferenced_is' => array(
       'name' => 'field_georeferenced_is',
       'type' => 'list_boolean',
-      'label' => 'Sites georeferenced?',
-      'description' => 'Sites georeferenced?',
+      'label' => 'Sites georeferenced',
+      'description' => '',
       'cardinality' => 1,
       'settings' => array(
         'allowed_values' => array(
