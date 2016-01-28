@@ -45,3 +45,9 @@ ul.primary li a {
 .link-field-column .form-text {
   width: 80%;
 }
+
+/* horizontal tab fieldgroup styling */
+
+.horizontal-tabs-list li {
+  list-style-type: none;
+}
