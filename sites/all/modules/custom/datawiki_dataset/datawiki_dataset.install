@@ -255,6 +255,20 @@ function datawiki_dataset_enable() {
           ),
         ),
       ),
+    'field_collection_site' => array(
+      'name' => 'field_collection_site',
+      'type' => 'text',
+      'label' => 'Collection site(s)',
+      'description' => 'Collection site location(s)',
+      'cardinality' => -1,
+      'settings' => array(),
+      'widget' => array(),
+      'display' => array(
+        'default' => array(
+          'weight' => 15,
+          ),
+        ),
+      ),
     'field_collection_site_geo' => array(
       'name' => 'field_collection_site_geo',
       'type' => 'geofield',
@@ -265,20 +279,6 @@ function datawiki_dataset_enable() {
       'widget' => array(
         'type' => 'geofield_latlon',
         ),
-      'display' => array(
-        'default' => array(
-          'weight' => 15,
-          ),
-        ),
-      ),
-    'field_collection_site' => array(
-      'name' => 'field_collection_site',
-      'type' => 'text',
-      'label' => 'Collection site(s)',
-      'description' => 'Collection site location(s) (if no lat/long)',
-      'cardinality' => -1,
-      'settings' => array(),
-      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 16,
@@ -643,6 +643,12 @@ function datawiki_dataset_enable() {
       'identifier' => 'group_get|node|dataset|form',
       'label' => 'Get data',
       'format_type' => 'htab',
+      'format_settings' => array(
+        'instance_settings' => array(
+          'required_fields' => 1,
+          ),
+        'formatter' => 'closed',
+        ),
       'weight' => 4,
       'entity_type' => 'node',
       'bundle' => 'dataset',
@@ -665,6 +671,12 @@ function datawiki_dataset_enable() {
       'identifier' => 'group_use|node|dataset|form',
       'label' => 'Use data',
       'format_type' => 'htab',
+      'format_settings' => array(
+        'instance_settings' => array(
+          'required_fields' => 1,
+          ),
+        'formatter' => 'closed',
+        ),
       'weight' => 5,
       'entity_type' => 'node',
       'bundle' => 'dataset',
@@ -688,6 +700,12 @@ function datawiki_dataset_enable() {
       'identifier' => 'group_details|node|dataset|form',
       'label' => 'Data details',
       'format_type' => 'htab',
+      'format_settings' => array(
+        'instance_settings' => array(
+          'required_fields' => 1,
+          ),
+        'formatter' => 'closed',
+        ),
       'weight' => 6,
       'entity_type' => 'node',
       'bundle' => 'dataset',
@@ -726,7 +744,7 @@ function datawiki_dataset_enable() {
 
   _create_vocabs($new_vocabs);
   _create_content_type($new_content_type);
-  _add_fields($new_content_type,$new_fields);
+  _add_or_update_fields($new_content_type,$new_fields);
   _create_fieldgroups($new_field_groups);
 }
 
@@ -744,35 +762,39 @@ function _create_vocabs($vocabs) {
 } //_create_vocabs
 
 function _create_content_type($content_type_definition) {
-
-  $content_type = node_type_set_defaults($content_type_definition);
-  node_type_save($content_type);
+  $types = node_type_get_types();
+  if (!(array_key_exists($content_type_definition['type'], $types))) {
+    $content_type = node_type_set_defaults($content_type_definition);
+    node_type_save($content_type);
+  }
+  else {
+    dpm ('content type ' . $content_type_definition['type'] . 'exists');
+  }
 }
 
-function _add_fields($content_type, $field_definitions) {
+function _add_or_update_fields($content_type, $field_definitions) {
 
   foreach ($field_definitions as $machine_name => $field_info) {
 
+    $field = array(
+      'field_name' => $machine_name,
+      'type' => $field_info['type'],
+      'cardinality' => $field_info['cardinality'],
+      'settings' => $field_info['settings'],
+    );
+
     if (!field_info_field($machine_name)) {
-      $field = array(
-          'field_name' => $machine_name,
-          'type' => $field_info['type'],
-          'cardinality' => $field_info['cardinality'],
-          'settings' => $field_info['settings'],
-          );
       field_create_field($field);
       dpm('created ' . $machine_name);
     }
     else {
       dpm($machine_name . ' already exists!');
+      field_update_field($field);
     }
 
     $bundle = $content_type['type'];
 
-    // Create the instance on the bundle.
-    if ((field_info_field($machine_name)) && (!field_info_instance('node',$machine_name,$bundle))) {
-
-      $instance = array(
+    $instance = array(
         'field_name' => $machine_name,
         'entity_type' => 'node',
         'label' => $field_info['label'],
@@ -781,12 +803,16 @@ function _add_fields($content_type, $field_definitions) {
         'settings' => $field_info['settings'],
         'widget' => $field_info['widget'],
         'display' => $field_info['display'],
-        );
+      );
 
-      field_create_instance($instance);
-      dpm($machine_name . ' added to ' . $instance['bundle']);
+    // Create the instance on the bundle if it doesn't exist
+    if ((field_info_field($machine_name)) && (!field_info_instance('node',$machine_name,$bundle))) {
+        field_create_instance($instance);
+        dpm($machine_name . ' added to ' . $instance['bundle']);
       } // if
-
+    else {
+      field_update_instance($instance);
+      }
     } // foreach
 
   } // _add_fields
@@ -805,12 +831,12 @@ function datawiki_dataset_uninstall() {
   );
   $new_content_type_name = 'dataset';
 
-  // Delete the new fields
-  foreach ($new_field_names as $machine_name) {
-    field_delete_field($machine_name);
-    dpm('deleted ' . $machine_name);
-    field_purge_batch(1);
-  }
+  // // Delete the new fields
+  // foreach ($new_field_names as $machine_name) {
+  //   field_delete_field($machine_name);
+  //   dpm('deleted ' . $machine_name);
+  //   field_purge_batch(1);
+  // }
 
   // Delete the new content type
   node_type_delete($new_content_type_name);
