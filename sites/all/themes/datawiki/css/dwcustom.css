@@ -52,7 +52,12 @@ ul.primary li a {
   list-style-type: none;
 }
 
-/* lat long fields fix */
+ul.horizontal-tabs-list li, ul.horizontal-tabs-list li.selected {
+  padding: .4em !important;
+  font-size: 1.2em;
+}
+
+/* lat long fields fix
 input.geofield-lat, input.geofield-lon {
   width: 4em;
 }
