@@ -273,7 +273,7 @@ function datawiki_dataset_enable() {
       'name' => 'field_collection_site_geo',
       'type' => 'geofield',
       'label' => 'Collection site lat/long, if available',
-      'description' => 'Collection site(s) lat/long, if available',
+      'description' => '',
       'cardinality' => -1,
       'settings' => array(),
       'widget' => array(
@@ -840,5 +840,5 @@ function datawiki_dataset_uninstall() {
 
   // Delete the new content type
   node_type_delete($new_content_type_name);
-  dpm('deleted the content type');
+  dpm('deleted the content type ' . $new_content_type_name);
 }
