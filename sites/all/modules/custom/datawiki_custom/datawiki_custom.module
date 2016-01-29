@@ -3,6 +3,9 @@
 
 // Shortens titles of tabs on the user primary tabs menu
 
+/*
+ * Implementation of hook_menu_alter()
+ */
 function datawiki_custom_menu_alter(&$items) {
   // Moves existing My Account link to main menu
 
@@ -19,190 +22,225 @@ function datawiki_custom_menu_alter(&$items) {
   }
 }
 
+/*
+ * Implementation of hook_views_api()
+ */
 function datawiki_custom_views_api() {
   return array(
     'api' => 3,
   );
 }
 
+/*
+ * Implementation of hook_views_default_views()
+ */
+
 function datawiki_custom_views_default_views() {
 
-  /* ------BEGIN DATASET TEST CONTENT VIEW ------- */
+  /* ------BEGIN FIND DATA VIEW ------- */
 
   $view = new view();
   $view = new view();
-$view->name = 'finddata_block_filter';
-$view->description = 'Allow dynamic filtering of datasets based on Drupal taxonomy';
-$view->tag = '';
-$view->base_table = 'node';
-$view->human_name = '';
-$view->core = 0;
-$view->api_version = '3.0';
-$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $view->name = 'finddata_block_filter';
+  $view->description = 'Allow dynamic filtering of datasets based on Drupal taxonomy';
+  $view->tag = '';
+  $view->base_table = 'node';
+  $view->human_name = '';
+  $view->core = 0;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-/* Display: Defaults */
-$handler = $view->new_display('default', 'Defaults', 'default');
-$handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['cache']['type'] = 'none';
-$handler->display->display_options['query']['type'] = 'views_query';
-$handler->display->display_options['exposed_form']['type'] = 'basic';
-$handler->display->display_options['pager']['type'] = 'full';
-$handler->display->display_options['pager']['options']['items_per_page'] = 20;
-$handler->display->display_options['style_plugin'] = 'table';
-$handler->display->display_options['style_options']['grouping'] = '';
-$handler->display->display_options['style_options']['columns'] = array(
-  'title' => 'title',
-  'teaser' => 'teaser',
-);
-$handler->display->display_options['style_options']['default'] = '-1';
-$handler->display->display_options['style_options']['info'] = array(
-  'title' => array(
-    'sortable' => 0,
-    'separator' => '',
-  ),
-  'teaser' => array(
-    'separator' => '',
-  ),
-);
-$handler->display->display_options['exposed_block'] = TRUE;
-/* No results behavior: Global: Text area */
-$handler->display->display_options['empty']['text']['id'] = 'area';
-$handler->display->display_options['empty']['text']['table'] = 'views';
-$handler->display->display_options['empty']['text']['field'] = 'area';
-$handler->display->display_options['empty']['text']['content'] = 'There are currently no data sets available that match your search criteria. If you know of any please start a short page (it could be as simple as a title and a link to a relevant web page) or check back again soon since the number of data sets is increasing rapidly';
-$handler->display->display_options['empty']['text']['format'] = '1';
-/* Field: Content: Title */
-$handler->display->display_options['fields']['title']['id'] = 'title';
-$handler->display->display_options['fields']['title']['table'] = 'node';
-$handler->display->display_options['fields']['title']['field'] = 'title';
-$handler->display->display_options['fields']['title']['label'] = 'Dataset';
-$handler->display->display_options['fields']['title']['alter']['max_length'] = '300';
-$handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
-/* Field: Broken/missing handler */
-$handler->display->display_options['fields']['teaser']['id'] = 'teaser';
-$handler->display->display_options['fields']['teaser']['table'] = 'node_revision';
-$handler->display->display_options['fields']['teaser']['field'] = 'teaser';
-$handler->display->display_options['fields']['teaser']['label'] = 'Description (click on the dataset link to find out more)';
-$handler->display->display_options['fields']['teaser']['alter']['max_length'] = '225';
-$handler->display->display_options['fields']['teaser']['alter']['trim'] = TRUE;
-/* Sort criterion: Content: Title */
-$handler->display->display_options['sorts']['title']['id'] = 'title';
-$handler->display->display_options['sorts']['title']['table'] = 'node';
-$handler->display->display_options['sorts']['title']['field'] = 'title';
-/* Filter criterion: Content: Type */
-$handler->display->display_options['filters']['type']['id'] = 'type';
-$handler->display->display_options['filters']['type']['table'] = 'node';
-$handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'dataset_wiki_page' => 'dataset_wiki_page',
-);
-$handler->display->display_options['filters']['type']['group'] = '0';
-$handler->display->display_options['filters']['type']['expose']['label'] = 'Node: Type';
-$handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
-$handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid']['id'] = 'tid';
-$handler->display->display_options['filters']['tid']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid']['field'] = 'tid';
-$handler->display->display_options['filters']['tid']['group'] = '0';
-$handler->display->display_options['filters']['tid']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid']['expose']['operator_id'] = 'tid_op';
-$handler->display->display_options['filters']['tid']['expose']['label'] = 'Taxon';
-$handler->display->display_options['filters']['tid']['expose']['operator'] = 'tid_op';
-$handler->display->display_options['filters']['tid']['expose']['identifier'] = 'tid';
-$handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid']['type'] = 'select';
-$handler->display->display_options['filters']['tid']['vocabulary'] = 'vocabulary_2';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_4']['id'] = 'tid_4';
-$handler->display->display_options['filters']['tid_4']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_4']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_4']['value'] = array(
-  36 => '36',
-  25 => '25',
-  37 => '37',
-  26 => '26',
-  27 => '27',
-  35 => '35',
-  28 => '28',
-  29 => '29',
-  30 => '30',
-  31 => '31',
-  32 => '32',
-);
-$handler->display->display_options['filters']['tid_4']['group'] = '0';
-$handler->display->display_options['filters']['tid_4']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['expose']['operator_id'] = 'tid_4_op';
-$handler->display->display_options['filters']['tid_4']['expose']['label'] = 'Biome';
-$handler->display->display_options['filters']['tid_4']['expose']['operator'] = 'tid_4_op';
-$handler->display->display_options['filters']['tid_4']['expose']['identifier'] = 'tid_4';
-$handler->display->display_options['filters']['tid_4']['expose']['reduce'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['type'] = 'select';
-$handler->display->display_options['filters']['tid_4']['vocabulary'] = 'vocabulary_8';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_1']['id'] = 'tid_1';
-$handler->display->display_options['filters']['tid_1']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_1']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_1']['group'] = '0';
-$handler->display->display_options['filters']['tid_1']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_1']['expose']['operator_id'] = 'tid_1_op';
-$handler->display->display_options['filters']['tid_1']['expose']['label'] = 'Data Type';
-$handler->display->display_options['filters']['tid_1']['expose']['operator'] = 'tid_1_op';
-$handler->display->display_options['filters']['tid_1']['expose']['identifier'] = 'tid_1';
-$handler->display->display_options['filters']['tid_1']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_1']['type'] = 'select';
-$handler->display->display_options['filters']['tid_1']['vocabulary'] = 'vocabulary_3';
-$handler->display->display_options['filters']['tid_1']['hierarchy'] = 1;
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_2']['id'] = 'tid_2';
-$handler->display->display_options['filters']['tid_2']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_2']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_2']['group'] = '0';
-$handler->display->display_options['filters']['tid_2']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_2']['expose']['operator_id'] = 'tid_2_op';
-$handler->display->display_options['filters']['tid_2']['expose']['label'] = 'Ecological Level';
-$handler->display->display_options['filters']['tid_2']['expose']['operator'] = 'tid_2_op';
-$handler->display->display_options['filters']['tid_2']['expose']['identifier'] = 'tid_2';
-$handler->display->display_options['filters']['tid_2']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_2']['type'] = 'select';
-$handler->display->display_options['filters']['tid_2']['vocabulary'] = 'vocabulary_6';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_3']['id'] = 'tid_3';
-$handler->display->display_options['filters']['tid_3']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_3']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_3']['group'] = '0';
-$handler->display->display_options['filters']['tid_3']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_3']['expose']['operator_id'] = 'tid_3_op';
-$handler->display->display_options['filters']['tid_3']['expose']['label'] = 'Spatial Scale (extent)';
-$handler->display->display_options['filters']['tid_3']['expose']['operator'] = 'tid_3_op';
-$handler->display->display_options['filters']['tid_3']['expose']['identifier'] = 'tid_3';
-$handler->display->display_options['filters']['tid_3']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_3']['type'] = 'select';
-$handler->display->display_options['filters']['tid_3']['vocabulary'] = 'vocabulary_5';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_5']['id'] = 'tid_5';
-$handler->display->display_options['filters']['tid_5']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_5']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_5']['group'] = '0';
-$handler->display->display_options['filters']['tid_5']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_5']['expose']['operator_id'] = 'tid_5_op';
-$handler->display->display_options['filters']['tid_5']['expose']['label'] = 'Accessibility';
-$handler->display->display_options['filters']['tid_5']['expose']['operator'] = 'tid_5_op';
-$handler->display->display_options['filters']['tid_5']['expose']['identifier'] = 'tid_5';
-$handler->display->display_options['filters']['tid_5']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_5']['type'] = 'select';
-$handler->display->display_options['filters']['tid_5']['vocabulary'] = 'vocabulary_9';
+  /* Display: Defaults */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '3600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '3600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = 20;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['grouping'] = '';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title' => 'title',
+    'teaser' => 'teaser',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
+    'teaser' => array(
+      'separator' => '',
+    ),
+  );
+  $handler->display->display_options['exposed_block'] = TRUE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['text']['id'] = 'area';
+  $handler->display->display_options['empty']['text']['table'] = 'views';
+  $handler->display->display_options['empty']['text']['field'] = 'area';
+  $handler->display->display_options['empty']['text']['content'] = 'There are currently no data sets available that match your search criteria. If you know of any please start a short page (it could be as simple as a title and a link to a relevant web page) or check back again soon since the number of data sets is increasing rapidly';
+  $handler->display->display_options['empty']['text']['format'] = '1';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Dataset';
+  $handler->display->display_options['fields']['title']['alter']['max_length'] = '300';
+  $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['title']['empty'] = 'No results. Change filters or search terms and try again.';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '200';
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '200',
+  );
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'dataset_wiki_page' => 'dataset_wiki_page',
+  );
+  $handler->display->display_options['filters']['type']['group'] = '0';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Node: Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid']['id'] = 'tid';
+  $handler->display->display_options['filters']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid']['group'] = '0';
+  $handler->display->display_options['filters']['tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid']['expose']['operator_id'] = 'tid_op';
+  $handler->display->display_options['filters']['tid']['expose']['label'] = 'Taxon';
+  $handler->display->display_options['filters']['tid']['expose']['operator'] = 'tid_op';
+  $handler->display->display_options['filters']['tid']['expose']['identifier'] = 'tid';
+  $handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid']['type'] = 'select';
+  $handler->display->display_options['filters']['tid']['vocabulary'] = 'vocabulary_2';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_4']['id'] = 'tid_4';
+  $handler->display->display_options['filters']['tid_4']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_4']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_4']['value'] = array(
+    36 => '36',
+    25 => '25',
+    37 => '37',
+    26 => '26',
+    27 => '27',
+    35 => '35',
+    28 => '28',
+    29 => '29',
+    30 => '30',
+    31 => '31',
+    32 => '32',
+  );
+  $handler->display->display_options['filters']['tid_4']['group'] = '0';
+  $handler->display->display_options['filters']['tid_4']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['expose']['operator_id'] = 'tid_4_op';
+  $handler->display->display_options['filters']['tid_4']['expose']['label'] = 'Biome';
+  $handler->display->display_options['filters']['tid_4']['expose']['operator'] = 'tid_4_op';
+  $handler->display->display_options['filters']['tid_4']['expose']['identifier'] = 'tid_4';
+  $handler->display->display_options['filters']['tid_4']['expose']['reduce'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_4']['vocabulary'] = 'vocabulary_8';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_1']['id'] = 'tid_1';
+  $handler->display->display_options['filters']['tid_1']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_1']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_1']['group'] = '0';
+  $handler->display->display_options['filters']['tid_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['expose']['operator_id'] = 'tid_1_op';
+  $handler->display->display_options['filters']['tid_1']['expose']['label'] = 'Data Type';
+  $handler->display->display_options['filters']['tid_1']['expose']['operator'] = 'tid_1_op';
+  $handler->display->display_options['filters']['tid_1']['expose']['identifier'] = 'tid_1';
+  $handler->display->display_options['filters']['tid_1']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_1']['vocabulary'] = 'vocabulary_3';
+  $handler->display->display_options['filters']['tid_1']['hierarchy'] = 1;
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_2']['id'] = 'tid_2';
+  $handler->display->display_options['filters']['tid_2']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_2']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_2']['group'] = '0';
+  $handler->display->display_options['filters']['tid_2']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['expose']['operator_id'] = 'tid_2_op';
+  $handler->display->display_options['filters']['tid_2']['expose']['label'] = 'Ecological Level';
+  $handler->display->display_options['filters']['tid_2']['expose']['operator'] = 'tid_2_op';
+  $handler->display->display_options['filters']['tid_2']['expose']['identifier'] = 'tid_2';
+  $handler->display->display_options['filters']['tid_2']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_2']['vocabulary'] = 'vocabulary_6';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_3']['id'] = 'tid_3';
+  $handler->display->display_options['filters']['tid_3']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_3']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_3']['group'] = '0';
+  $handler->display->display_options['filters']['tid_3']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['expose']['operator_id'] = 'tid_3_op';
+  $handler->display->display_options['filters']['tid_3']['expose']['label'] = 'Spatial Scale (extent)';
+  $handler->display->display_options['filters']['tid_3']['expose']['operator'] = 'tid_3_op';
+  $handler->display->display_options['filters']['tid_3']['expose']['identifier'] = 'tid_3';
+  $handler->display->display_options['filters']['tid_3']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_3']['vocabulary'] = 'vocabulary_5';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_5']['id'] = 'tid_5';
+  $handler->display->display_options['filters']['tid_5']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_5']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_5']['group'] = '0';
+  $handler->display->display_options['filters']['tid_5']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['expose']['operator_id'] = 'tid_5_op';
+  $handler->display->display_options['filters']['tid_5']['expose']['label'] = 'Accessibility';
+  $handler->display->display_options['filters']['tid_5']['expose']['operator'] = 'tid_5_op';
+  $handler->display->display_options['filters']['tid_5']['expose']['identifier'] = 'tid_5';
+  $handler->display->display_options['filters']['tid_5']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_5']['vocabulary'] = 'vocabulary_9';
+  /* Filter criterion: Global: Combine fields filter */
+  $handler->display->display_options['filters']['combine']['id'] = 'combine';
+  $handler->display->display_options['filters']['combine']['table'] = 'views';
+  $handler->display->display_options['filters']['combine']['field'] = 'combine';
 
-/* Display: Page */
-$handler = $view->new_display('page', 'Page', 'page_1');
-$handler->display->display_options['path'] = 'find-data';
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['path'] = 'find-data';
 
 
-  /* ------BEGIN DATASET TEST CONTENT VIEW ------- */
+  /* ------END FIND DATA VIEW ------- */
 
   $views[$view->name] = $view;
 
   return $views;
 
 }
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+
+function datawiki_custom_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && ($api == 'plugins' || $api == 'context')) {
+    return array('version' => 3);
+  }
+}
+
+
