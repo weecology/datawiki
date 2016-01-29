@@ -51,3 +51,19 @@ ul.primary li a {
 .horizontal-tabs-list li {
   list-style-type: none;
 }
+
+/* lat long fields fix */
+input.geofield-lat, input.geofield-lon {
+  width: 4em;
+}
+
+.form-item-field-collection-site-geo-und-0-geom-lat, .form-item-field-collection-site-geo-und-0-geom-lon {
+  float: left;
+  margin-right: 1em;
+}
+
+/* timespan TO fix */
+
+.end-date-wrapper > div > label {
+  margin-right: 100%;
+}
