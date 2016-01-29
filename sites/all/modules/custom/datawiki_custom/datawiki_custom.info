@@ -1,4 +1,4 @@
-name = Datawiki menu
-description = Customizations to main menu
+name = Datawiki customizations in code
+description = Customizations to main menu, Find Data
 core = 7.x
 package = Datawiki Custom
