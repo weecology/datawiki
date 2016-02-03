@@ -1,0 +1,105 @@
+diff --git a/ds_bootstrap_layouts.module b/ds_bootstrap_layouts.module
+index b17b762f429c88fd546a44f876caf32609a6f0d9..db6f915dba956cc99ea5e520a0025723f3968832 100644
+--- a/ds_bootstrap_layouts.module
++++ b/ds_bootstrap_layouts.module
+@@ -139,6 +139,19 @@ function ds_bootstrap_layouts_ds_layout_info() {
+     'form' => TRUE,
+     'image' => TRUE,
+   );
++
++  $layouts['bootstrap_8_4_stacked'] = array(
++    'label' => t('Bootstrap Two Columns: 8-4 stacked'),
++    'path' => $twocol . '/bootstrap_8_4_stacked',
++    'regions' => array(
++      'top' => t('Top'),
++      'left' => t('Left'),
++      'right' => t('Right'),
++      'bottom' => t('Bottom'),
++    ),
++    'form' => TRUE,
++    'image' => TRUE,
++  );
+   
+   $layouts['bootstrap_9_3'] = array(
+     'label' => t('Bootstrap Two Columns: 9-3'),
+diff --git a/layouts/twocol/bootstrap_8_4_stacked/bootstrap-8-4-stacked.tpl.php b/layouts/twocol/bootstrap_8_4_stacked/bootstrap-8-4-stacked.tpl.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..310c2da82b32635cecde42f83586a1910d114764
+--- /dev/null
++++ b/layouts/twocol/bootstrap_8_4_stacked/bootstrap-8-4-stacked.tpl.php
+@@ -0,0 +1,43 @@
++<?php
++/**
++ * @file
++ * Bootstrap 8-4 stacked template for Display Suite.
++ */
++?>
++
++
++<<?php print $layout_wrapper; print $layout_attributes; ?> class="<?php print $classes; ?>">
++  <?php if (isset($title_suffix['contextual_links'])): ?>
++    <?php print render($title_suffix['contextual_links']); ?>
++  <?php endif; ?>
++  <?php if ($top): ?>
++    <div class="row">
++      <<?php print $top_wrapper; ?> class="col-sm-12 <?php print $top_classes; ?>">
++        <?php print $top; ?>
++      </<?php print $top_wrapper; ?>>
++    </div>
++  <?php endif; ?>
++  <?php if ($left || $right): ?>
++    <div class="row">
++      <<?php print $left_wrapper; ?> class="col-sm-8 <?php print $left_classes; ?>">
++        <?php print $left; ?>
++      </<?php print $left_wrapper; ?>>
++      <<?php print $right_wrapper; ?> class="col-sm-4 <?php print $right_classes; ?>">
++        <?php print $right; ?>
++      </<?php print $right_wrapper; ?>>
++    </div>
++  <?php endif; ?>
++  <?php if ($bottom): ?>
++    <div class="row">
++      <<?php print $bottom_wrapper; ?> class="col-sm-12 <?php print $bottom_classes; ?>">
++        <?php print $bottom; ?>
++      </<?php print $bottom_wrapper; ?>>
++    </div>
++  <?php endif; ?>
++</<?php print $layout_wrapper ?>>
++
++
++<!-- Needed to activate display suite support on forms -->
++<?php if (!empty($drupal_render_children)): ?>
++  <?php print $drupal_render_children ?>
++<?php endif; ?>
+diff --git a/layouts/twocol/bootstrap_8_4_stacked/bootstrap_8_4_stacked.png b/layouts/twocol/bootstrap_8_4_stacked/bootstrap_8_4_stacked.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..719f1b41c3b074c8170402a80932b0e04d6ecb78
+GIT binary patch
+literal 1718
+zcmeAS@N?(olHy`uVBq!ia0vp^OM&<W2OE&=d#jQGq$EpRBT9nv(@M${i&7aJQ}UBi
+z6+Ckj(^G>|6H_V+Po~;1FfglRhD4M^`1)8S=jZArg4F0$<Q4#RGcefLR}>^BXQ!4Z
+zB&DWj=GiK}-@RW+Av48RDcsc8z_-9TH6zobswg$M$}c3jDm&RSMakYy!KT6rXh3di
+zNuokUZcbjYRfVk**jy_h8zii+qySb@l5ML5aa4qFfP!;=QL2Kep0RGSfuW&-nVFuU
+ziK&^Hp^k!)fuWJU0T7w#8k$&{npqi{D?ot~(6*wKG^-#NH>h1eo~=?wNlAf~zJ7Um
+zxn8-kUVc%!zM-Y1CCCgTBVC{h-Qvo;lEez#ykcdT2`;I{$wiq3C7Jno3Lp~`lk!VT
+zY?Xj6g?J&i0B&qvF*KNf0j6J(SfFpHX8`gNOrftYex<p&aMi^nL8%D$Vl}upq_QAY
+zKPa_0zqBYB7;$OJAgc<joQqNuOY)0C^7C_Gp%{>nUy@&(kzb(T9Bihb;hUJ8nFkWk
+z1ncniwerj>E=kNwPW5!LRRWr!mzkMj<?80@VqxrJXkq4NVQA=T>S$nW;%02_X69mS
+zU|{Lw3e)S7pIn-onpXnTn}X15gi|jlG2|8iZFWg5$}CGwaVyHtRRDY1Difz$oZWDm
+z2i2Q`+bsq-_38s1qYsK&q^O1o0n-nN2~W5{4m|0n<^j`t5inuDKmNQAm|rwJT^vIy
+zZoRn^=y%0I=D<V0wf7E0PcXTuevkM1gHDAiw!_Tr0Z)9_9b~Pzwd7=+tB~umvZYr`
+z7cVkMO@I4cRX8KUZ1ze0|2K0MES!1%zL@LBRSjn=!_TL!Z|}a~dh^|tt+|QGV!pv8
+zfo%_WZBb28`m%b(8&*lz%%DkA)emnm(LAYnYN>`-QK03%lZ8Qg)jW$-#FuKEG(4r?
+zRrE+%@sr$41up^BMJ$0zKx*=&C;UczW#8XEVVN5@Z}t?6eU4KUyj(aJxgaRGVxXQT
+z4MEioAq3?(r9;T2Q$um5in*`s>t{1(0JRCIUas`_eB>GUZ-%I$+vG_#K87b!CV#4U
+zAK=JeP*k{W>hE8>ujd9m`oRWv0<v)+!-2*@O(n}IV7(~r2l@u$Stvz`g@0PLz6#Ha
+zne(@#c2D_>!v7z3<lYUREOgwwW0EKL*_wOru6%8t_r&mC`k(XH?r)#^^zE98&yNyT
+z$9=EWowaO5`sU|%x6j{I3i5p0Zk3-N8doKb?^Ek8`gGja@?4{^lg6!Wr8UhOKOZkC
+zsVUYsbeo+JloWLDVMh6VKfenvpYHVRd@PL`IYfGHl6TSND;x9Xb$a3rjFbgkhWp}8
+z&U!~5TvoGZ*RKs#vR$|9J0sRDzgu;!e(f*KtVu@8Zmie8yX)Px=TEPv*1SC>C0BC!
+ze^B;)iNM?2%}TznJ)HHleLt7c4Rg0Xqjl|(Ykg17p1LurYm$3ck?EQDla1ER{oIt2
+doLDECz~H%Ic6ILxl?|Yp#M9N!Wt~$(69B<ga`6BF
+
+literal 0
+HcmV?d00001
+

@@ -139,6 +139,19 @@ function ds_bootstrap_layouts_ds_layout_info() {
     'form' => TRUE,
     'image' => TRUE,
   );
+
+  $layouts['bootstrap_8_4_stacked'] = array(
+    'label' => t('Bootstrap Two Columns: 8-4 stacked'),
+    'path' => $twocol . '/bootstrap_8_4_stacked',
+    'regions' => array(
+      'top' => t('Top'),
+      'left' => t('Left'),
+      'right' => t('Right'),
+      'bottom' => t('Bottom'),
+    ),
+    'form' => TRUE,
+    'image' => TRUE,
+  );
   
   $layouts['bootstrap_9_3'] = array(
     'label' => t('Bootstrap Two Columns: 9-3'),
