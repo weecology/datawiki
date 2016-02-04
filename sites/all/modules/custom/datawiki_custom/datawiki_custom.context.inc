@@ -48,15 +48,13 @@ function datawiki_custom_context_default_contexts() {
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'right_sidebar';
-  $context->description = 'Blocks that appear in right sidebar on most pages';
+  $context->description = 'Blocks that appear in right sidebar on some pages.';
   $context->tag = '';
   $context->conditions = array(
     'path' => array(
       'values' => array(
-        '~find-data' => '~find-data',
-        '~node/add/dataset' => '~node/add/dataset',
-        '~node/add/dataset-wiki-page' => '~node/add/dataset-wiki-page',
-        '~node/*/edit' => '~node/*/edit',
+        'user' => 'user',
+        '<front>' => '<front>',
       ),
     ),
   );
@@ -82,7 +80,7 @@ function datawiki_custom_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Blocks that appear in right sidebar on most pages');
+  t('Blocks that appear in right sidebar on some pages.');
 
   $export[$context->name] = $context;
 
