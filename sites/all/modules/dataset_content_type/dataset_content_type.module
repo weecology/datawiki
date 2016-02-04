@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Dataset content type feature.
+ */
+
+include_once 'dataset_content_type.features.inc';
