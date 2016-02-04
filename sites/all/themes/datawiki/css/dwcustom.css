@@ -57,7 +57,7 @@ ul.horizontal-tabs-list li, ul.horizontal-tabs-list li.selected {
   font-size: 1.2em;
 }
 
-/* lat long fields fix
+/* lat long fields fix */
 input.geofield-lat, input.geofield-lon {
   width: 4em;
 }
@@ -81,4 +81,24 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
 
 .page-find-data .views-exposed-widget {
   float: none;
+}
+
+/* DS Bootstrap layout CSS tweaks for dataset content type only*/
+
+.node-dataset.view-mode-full .row {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 2em;
+}
+
+/* Dataset field theming */
+
+.node-dataset.view-mode-full .col-sm-4 {
+  background-color: #eee;
+}
+
+.node-dataset.view-mode-full .field-name-field-install-code-text {
+  font-family: monospace;
 }
