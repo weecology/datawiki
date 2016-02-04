@@ -334,7 +334,7 @@ function datawiki_dataset_enable() {
     'field_time_series_is' => array(
       'name' => 'field_time_series_is',
       'type' => 'list_boolean',
-      'label' => '',
+      'label' => 'Is time series',
       'description' => 'Do these data include a time series?',
       'cardinality' => 1,
       'settings' => array(
