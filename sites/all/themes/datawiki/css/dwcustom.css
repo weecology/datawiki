@@ -102,3 +102,10 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
 .node-dataset.view-mode-full .field-name-field-install-code-text {
   font-family: monospace;
 }
+
+/* Style responsive menu toggle */
+
+#superfish-1-toggle {
+  font-size: 80px;
+}
+
