@@ -207,7 +207,9 @@ function datawiki_dataset_enable() {
       'label' => 'Get Data (URL)',
       'description' => 'URL to request or download',
       'cardinality' => -1,
-      'settings' => array(),
+      'settings' => array(
+        'title' => 'none',
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -627,14 +629,9 @@ function datawiki_dataset_enable() {
       'parent_name' => 'group_dataset',
       'children' => array(
         0 => 'body',
-        1 => 'taxonomy_vocabulary_group',
-        2 => 'taxonomy_vocabulary_level',
-        3 => 'taxonomy_vocabulary_scale',
-        4 => 'taxonomy_vocabulary_type',
-        5 => 'taxonomy_vocabulary_biome',
-        6 => 'taxonomy_vocabulary_access',
-        7 => 'field_get_data_url',
-        8 => 'field_get_data_text',
+        1 => 'group_taxonomy',
+        2 => 'field_get_data_url',
+        3 => 'field_get_data_text',
         ),
       ),
     'group_use' => array(
@@ -709,6 +706,24 @@ function datawiki_dataset_enable() {
         0 => 'group_get',
         1 => 'group_use',
         2 => 'group_details',
+        ),
+      ),
+    'group_taxonomy' => array(
+      'group_name' => 'group_taxonomy',
+      'identifier' =< 'group_taxonomy|node|dataset|form',
+      'label' => 'Keywords',
+      'format_type' = 'fieldset',
+      'weight' => 7,
+      'entity_type' => 'node',
+      'bundle' => 'dataset',
+      'mode' => 'form',
+      'children' => array(
+        0 => 'taxonomy_vocabulary_group',
+        1 => 'taxonomy_vocabulary_level',
+        2 => 'taxonomy_vocabulary_scale',
+        3 => 'taxonomy_vocabulary_type',
+        4 => 'taxonomy_vocabulary_biome',
+        5 => 'taxonomy_vocabulary_access',
         ),
       ),
     );
