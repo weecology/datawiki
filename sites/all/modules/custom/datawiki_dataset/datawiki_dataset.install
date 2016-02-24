@@ -614,8 +614,8 @@ function datawiki_dataset_enable() {
     'group_get' => array(
       'group_name' => 'group_get',
       'identifier' => 'group_get|node|dataset|form',
-      'label' => 'Get data',
-      'format_type' => 'htab',
+      'label' => 'Overview & How to Get these Data',
+      'format_type' => 'multipage',
       'format_settings' => array(
         'instance_settings' => array(
           'required_fields' => 1,
@@ -637,8 +637,8 @@ function datawiki_dataset_enable() {
     'group_use' => array(
       'group_name' => 'group_use',
       'identifier' => 'group_use|node|dataset|form',
-      'label' => 'Use data',
-      'format_type' => 'htab',
+      'label' => 'Tips for using these data',
+      'format_type' => 'multipage',
       'format_settings' => array(
         'instance_settings' => array(
           'required_fields' => 1,
@@ -666,8 +666,8 @@ function datawiki_dataset_enable() {
     'group_details' => array(
       'group_name' => 'group_details',
       'identifier' => 'group_details|node|dataset|form',
-      'label' => 'Data details',
-      'format_type' => 'htab',
+      'label' => 'More specifics about the data',
+      'format_type' => 'multipage',
       'format_settings' => array(
         'instance_settings' => array(
           'required_fields' => 1,
@@ -697,7 +697,7 @@ function datawiki_dataset_enable() {
       'group_name' => 'group_dataset',
       'identifier' => 'group_dataset|node|dataset|form',
       'label' => 'Dataset details',
-      'format_type' => 'htabs',
+      'format_type' => 'multipage-group',
       'weight' => 3,
       'entity_type' => 'node',
       'bundle' => 'dataset',
