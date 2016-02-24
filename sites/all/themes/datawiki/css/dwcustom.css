@@ -73,6 +73,35 @@ input.geofield-lat, input.geofield-lon {
   margin-right: 100%;
 }
 
+/* Hide the confusing link to more information about text formats */
+
+#edit-field-data-collected-text-und-0-format-help {
+  display: none;
+}
+
+/* Brings taxonomy term fields inline on dataset node edit form */
+.field-type-taxonomy-term-reference {
+  float: left;
+  position: none;
+  margin-right: 2em;
+}
+
+/* wraps text on taxonomy term field labels on dataset node edit form and fixes the nonsense that ensues*/
+
+.form-item.form-type-autocomplete-deluxe {
+  white-space: pre;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.autocomplete-deluxe-container {
+  background: none;
+  border: none;
+}
+input.autocomplete-deluxe-form-single {
+  border: 1px solid #ccc !important;
+  margin-top: -1em;
+}
+
 /* Hide description text in views exposed filters */
 
 div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-filter-tid'] .description {
@@ -109,13 +138,13 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
   font-size: 80px;
 }
 
-/* Hide the confusing link to more information about text formats */
-
-#edit-field-data-collected-text-und-0-format-help {
-  display: none;
-}
-
 /* Hide the backend help text in exposed filters (Views bug) */
 .form-item.form-type-select .description {
   display: none;
 }
+
+/* hides confusing row weight link on dataset node edit form */
+.tabledrag-toggle-weight {
+  display: none;
+}
+
