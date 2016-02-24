@@ -109,3 +109,13 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
   font-size: 80px;
 }
 
+/* Hide the confusing link to more information about text formats */
+
+#edit-field-data-collected-text-und-0-format-help {
+  display: none;
+}
+
+/* Hide the backend help text in exposed filters (Views bug) */
+.form-item.form-type-select .description {
+  display: none;
+}
