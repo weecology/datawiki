@@ -303,24 +303,27 @@ function datawiki_dataset_enable() {
       'name' => 'field_timespan_date',
       'type' => 'datetime',
       'label' => 'Collection timespan',
-      'description' => 'When were the data collected?',
-      'cardinality' => -1,
+      'description' => 'Years when data were collected',
+      'cardinality' => 1,
       'settings' => array(
+        'default_value' => 'blank',
+        'default_value2' => 'blank',
         'granularity' => array(
-          'month' => 'month',
-          'day' => 'day',
+          'month' => 0,
+          'day' => 0,
           'year' => 'year',
           'hour' => 0,
           'minute' => 0,
           'second' => 0,
           ),
-        'todate' => 'required',
+        'todate' => 'optional',
         ),
       'widget' => array(
-        'type' => 'date_popup',
+        'type' => 'date_text',
         'active' => 1,
         'settings' => array(
-          'year_range' => '-50:0',)
+          'increment' => 1,
+          ),
         ),
       'display' => array(
         'default' => array(
@@ -339,7 +342,7 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'allowed_values' => array(
-          0 => '',
+          0 => 'No',
           1 => 'Includes time series',
           ),
         ),
@@ -349,38 +352,6 @@ function datawiki_dataset_enable() {
       'display' => array(
         'default' => array(
           'weight' => 19,
-          ),
-        ),
-      ),
-    'field_time_series_date' => array(
-      'name' => 'field_time_series_date',
-      'type' => 'datetime',
-      'label' => 'Time series span',
-      'description' => 'Start and end of the time series',
-      'cardinality' => -1,
-      'settings' => array(
-        'granularity' => array(
-          'month' => 'month',
-          'day' => 'day',
-          'year' => 'year',
-          'hour' => 0,
-          'minute' => 0,
-          'second' => 0,
-          ),
-        'todate' => 'required',
-        ),
-      'widget' => array(
-        'type' => 'date_popup',
-        'active' => 1,
-        'settings' => array(
-          'year_range' => '-50:0',)
-        ),
-      'display' => array(
-        'default' => array(
-          'weight' => 20,
-          'settings' => array(
-            'fromto' => 'both',
-            ),
           ),
         ),
       ),
