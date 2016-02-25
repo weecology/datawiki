@@ -26,6 +26,7 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
+        'description_display' => 'before',
         ),
       'widget' => array(
         'settings' => array(
@@ -52,6 +53,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -79,6 +81,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -106,6 +109,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -133,6 +137,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -160,6 +165,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -187,6 +193,7 @@ function datawiki_dataset_enable() {
             'parent' => 0,
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -209,6 +216,7 @@ function datawiki_dataset_enable() {
       'cardinality' => -1,
       'settings' => array(
         'title' => 'none',
+        'description_display' => 'before',
         ),
       'widget' => array(),
       'display' => array(
@@ -225,6 +233,7 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
+        'description_display' => 'before',
         ),
       'widget' => array(),
       'display' => array(
@@ -244,6 +253,7 @@ function datawiki_dataset_enable() {
           0 => 'No',
           1 => 'Yes',
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'options_onoff',
@@ -263,7 +273,9 @@ function datawiki_dataset_enable() {
       'label' => 'Collection site(s)',
       'description' => 'Collection site location(s)',
       'cardinality' => -1,
-      'settings' => array(),
+      'settings' => array(
+        'description_display' => 'before',
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
@@ -277,7 +289,9 @@ function datawiki_dataset_enable() {
       'label' => 'Collection site lat/long, if available',
       'description' => '',
       'cardinality' => -1,
-      'settings' => array(),
+      'settings' => array(
+        'description_display' => 'before',
+        ),
       'widget' => array(
         'type' => 'geofield_latlon',
         ),
@@ -291,13 +305,29 @@ function datawiki_dataset_enable() {
       'name' => 'field_image',
       'type' => 'image',
       'label' => 'Image(s)',
-      'description' => 'Upload a representative image or images',
+      'description' => 'To insert an image into a text field, upload it here, then place the cursor in ',
       'cardinality' => -1,
-      'settings' => array(),
-      'widget' => array(),
+      'settings' => array(
+        'description_display' => 'before',
+        ),
+      'widget' => array(
+        'settings' => array(
+          'insert' => 1,
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'link' => 'link',
+            'icon_link' => 'icon_link',
+            'image' => 0,
+            'image_large' => 0,
+            'image_medium' => 0,
+            'image_thumbnail' => 0,
+            ),
+          'insert_default' => 'auto',
+          ),
+        ),
       'display' => array(
         'default' => array(
-          'weight' => 17,
+          'weight' => 2,
           ),
         ),
       ),
@@ -319,6 +349,7 @@ function datawiki_dataset_enable() {
           'second' => 0,
           ),
         'todate' => 'optional',
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'date_text',
@@ -347,6 +378,7 @@ function datawiki_dataset_enable() {
           0 => 'No',
           1 => 'Includes time series',
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'options_onoff',
@@ -357,41 +389,15 @@ function datawiki_dataset_enable() {
           ),
         ),
       ),
-    'taxonomy_vocabulary_frequency' => array(
-      'field_name' => 'taxonomy_vocabulary_frequency',
-      'type' => 'taxonomy_term_reference',
-      'label' => 'Sampling Frequency',
-      'description' => '',
-      'cardinality' => 1,
-      'settings' => array(
-        'allowed_values' => array(
-          0 => array(
-            'vocabulary' => 'vocabulary_frequency',
-            'parent' => 0,
-            ),
-          ),
-        ),
-      'widget' => array(
-        'type' => 'autocomplete_deluxe_taxonomy',
-        'module' => 'autocomplete_deluxe',
-        'settings' => array(
-          'size' => 25,
-          ),
-        ),
-      'display' => array(
-        'default' => array(
-          'weight' => 21,
-          ),
-        ),
-      ),
     'field_data_collection_text' => array(
       'name' => 'field_data_collection_text',
       'type' => 'text_long',
       'label' => 'Data collection summary',
-      'description' => 'Include details on sampling protocol, methods, spatial scales, technologies used, etc.',
+      'description' => 'What types of data were collected? How were they collected? Include details on sampling protocol, methods, spatial scales, technologies used, etc.',
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
+        'description_display' => 'before',
         ),
       'widget' => array(),
       'display' => array(
@@ -400,51 +406,20 @@ function datawiki_dataset_enable() {
           ),
         ),
       ),
-    'field_data_collected_text' => array(
-      'name' => 'field_data_collected_text',
-      'type' => 'text',
-      'label' => 'Data collected',
-      'description' => 'Categories of observations and measurements',
-      'cardinality' => -1,
-      'settings' => array(
-        'text_processing' => 1,
-        ),
-      'widget' => array(),
-      'display' => array(
-        'default' => array(
-          'weight' => 23,
-          ),
-        ),
-      ),
     'field_known_issues_text' => array(
       'name' => 'field_known_issues_text',
       'type' => 'text_long',
-      'label' => 'Known issues',
-      'description' => 'Weaknesses, limitations, errors, caveats, etc.',
+      'label' => 'Best practices and known issues',
+      'description' => 'What do people need to know when working with these data? E.g. weaknesses, limitations, errors, caveats, tips for separating the wheat from the chaff',
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
+        'description_display' => 'before',
         ),
       'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 24,
-          ),
-        ),
-      ),
-    'field_best_practices_text' => array(
-      'name' => 'field_best_practices_text',
-      'type' => 'text_long',
-      'label' => 'Best practices',
-      'description' => 'Tips for separating the wheat from the chaff',
-      'cardinality' => 1,
-      'settings' => array(
-        'text_processing' => 1,
-        ),
-      'widget' => array(),
-      'display' => array(
-        'default' => array(
-          'weight' => 25,
           ),
         ),
       ),
@@ -456,7 +431,9 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
-        ),      'widget' => array(),
+        'description_display' => 'before',
+        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 26,
@@ -471,7 +448,9 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
-        ),      'widget' => array(),
+        'description_display' => 'before',
+        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 27,
@@ -491,6 +470,7 @@ function datawiki_dataset_enable() {
             'parent' => 0
             ),
           ),
+        'description_display' => 'before',
         ),
       'widget' => array(
         'type' => 'autocomplete_deluxe_taxonomy',
@@ -505,44 +485,20 @@ function datawiki_dataset_enable() {
           ),
         ),
       ),
-    'taxonomy_vocabulary_install' => array(
-      'field_name' => 'taxonomy_vocabulary_install',
-      'type' => 'taxonomy_term_reference',
-      'label' => 'Access with R, Python or other package',
-      'description' => '',
-      'cardinality' => 1,
-      'settings' => array(
-        'allowed_values' => array(
-          array(
-            'vocabulary' => 'vocabulary_install',
-            'parent' => 0
-            ),
-          ),
-        ),
-      'widget' => array(
-        'type' => 'autocomplete_deluxe_taxonomy',
-        'module' => 'autocomplete_deluxe',
-        'settings' => array(
-          'size' => 25,
-          ),
-        ),
-      'display' => array(
-        'default' => array(
-          'weight' => 29,
-          ),
-        ),
-      ),
-    'field_install_code_text' => array(
+    'field_install_code_link' => array(
       'name' => 'field_install_code_text',
-      'type' => 'text_long',
-      'label' => 'Install code',
-      'description' => 'Paste install code here',
-      'cardinality' => 1,
-      'settings' => array(),
+      'type' => 'link_field',
+      'label' => 'Instructions to install code packages',
+      'description' => 'If the dataset or other resources can be obtained by installing a code package, link to that package here',
+      'cardinality' => -1,
+      'settings' => array(
+        'title' => 'none',
+        'description_display' => 'before',
+        ),
       'widget' => array(),
       'display' => array(
         'default' => array(
-          'weight' => 30,
+          'weight' => 29,
           ),
         ),
       ),
@@ -554,7 +510,9 @@ function datawiki_dataset_enable() {
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
-        ),      'widget' => array(),
+        'description_display' => 'before',
+        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 31,
@@ -564,12 +522,14 @@ function datawiki_dataset_enable() {
     'field_publications_text' => array(
       'name' => 'field_publications_text',
       'type' => 'text',
-      'label' => 'Publications that use this data',
+      'label' => 'Publications that use these data',
       'description' => '',
       'cardinality' => -1,
       'settings' => array(
         'text_processing' => 1,
-        ),      'widget' => array(),
+        'description_display' => 'before',
+        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 32,
@@ -579,12 +539,14 @@ function datawiki_dataset_enable() {
     'field_miscellaneous_text' => array(
       'name' => 'field_miscellaneous_text',
       'type' => 'text',
-      'label' => 'Citation or Distributing Author',
+      'label' => 'Miscellaneous information',
       'description' => '',
       'cardinality' => 1,
       'settings' => array(
         'text_processing' => 1,
-        ),      'widget' => array(),
+        'description_display' => 'before',
+        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 33,
@@ -600,6 +562,7 @@ function datawiki_dataset_enable() {
       'settings' => array(
         'file_extensions' => 'txt json csv pdf xls',
         'max_filesize' => '10 MB',
+        'description_display' => 'before',
         ),
       'widget' => array(),
       'display' => array(
@@ -642,6 +605,8 @@ function datawiki_dataset_enable() {
       'format_settings' => array(
         'instance_settings' => array(
           'required_fields' => 1,
+          'move_button' => 1,
+          'move_additional' => 1,
           ),
         'formatter' => 'closed',
         ),
@@ -683,14 +648,10 @@ function datawiki_dataset_enable() {
         0 => 'field_georeferenced_is',
         1 => 'field_collection_site_geo',
         2 => 'field_collection_site',
-        3 => 'field_image',
-        4 => 'field_timespan_date',
-        5 => 'field_time_series_is',
-        6 => 'field_time_series_date',
-        7 => 'taxonomy_vocabulary_frequency',
-        8 => 'field_data_collection_text',
-        9 => 'field_data_collected_text',
-        10 => 'upload',
+        3 => 'field_timespan_date',
+        4 => 'field_time_series_is',
+        5 => 'field_data_collection_text',
+        6 => 'upload',
         ),
       ),
     'group_dataset' => array(
@@ -710,9 +671,12 @@ function datawiki_dataset_enable() {
       ),
     'group_taxonomy' => array(
       'group_name' => 'group_taxonomy',
-      'identifier' =< 'group_taxonomy|node|dataset|form',
+      'identifier' => 'group_taxonomy|node|dataset|form',
       'label' => 'Keywords',
-      'format_type' = 'fieldset',
+      'format_type' => 'fieldset',
+      'format_settings' => array(
+        'formatter' => 'open',
+        ),
       'weight' => 7,
       'entity_type' => 'node',
       'bundle' => 'dataset',
