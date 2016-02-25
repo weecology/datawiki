@@ -8,3 +8,4 @@ dependencies[] = date
 dependencies[] = date_popup_timepicker
 dependencies[] = autocomplete_deluxe
 dependencies[] = field_group
+dependencies[] = insert

@@ -210,3 +210,10 @@ function datawiki_superfish($variables) {
   $output['subject'] = '&#x2261;';
   return $output;
 }
+
+/**
+ * Hides more info tooltip on text forms
+ */
+function datawiki_filter_tips_more_info() {
+ 	return '';
+}
