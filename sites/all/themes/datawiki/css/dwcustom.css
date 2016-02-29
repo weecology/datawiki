@@ -199,3 +199,6 @@ input.form-submit.multipage-link-next:hover, input.form-submit.multipage-link-pr
   box-shadow: none;
   color: #ffffff;
 }
+.field-group-multipage-group-wrapper {
+  background: #fafafa;
+}
