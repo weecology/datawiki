@@ -67,20 +67,14 @@ input.geofield-lat, input.geofield-lon {
   margin-right: 1em;
 }
 
-/* timespan TO fix */
+/* timespan 'TO' fix */
 
 .end-date-wrapper > div > label {
   margin-right: 100%;
 }
 
-/* Hide the confusing link to more information about text formats */
-
-#edit-field-data-collected-text-und-0-format-help {
-  display: none;
-}
-
-/* Brings taxonomy term fields inline on dataset node edit form */
-.field-type-taxonomy-term-reference {
+/* Brings group of taxonomy term fields inline on dataset node edit form */
+.taxonomy-group .field-type-taxonomy-term-reference {
   float: left;
   position: none;
   margin-right: 2em;
@@ -88,17 +82,21 @@ input.geofield-lat, input.geofield-lon {
 
 /* wraps text on taxonomy term field labels on dataset node edit form and fixes the nonsense that ensues*/
 
-.form-item.form-type-autocomplete-deluxe {
+.taxonomy-group .form-item.form-type-autocomplete-deluxe {
   white-space: pre;
   margin-top: 0;
 }
-.autocomplete-deluxe-container {
+.taxonomy-group .field-type-taxonomy-term-reference .autocomplete-deluxe-container {
   background: none;
   border: none;
 }
-input.autocomplete-deluxe-form-single {
+.taxonomy-group .field-type-taxonomy-term-reference input.autocomplete-deluxe-form-single {
   border: 1px solid #ccc !important;
   margin-top: -1em;
+}
+/* .fieldset-wrapper .field-type-taxonomy-term-reference .form-type-autocomplete-deluxe {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Hide description text in views exposed filters */
@@ -147,3 +145,57 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
   display: none;
 }
 
+/* outline field group pages in a multipage format */
+.field-group-multipage.multipage-pane {
+  border: 2px solid #ddd;
+  padding: 1em;
+}
+.multipage-pane-title {
+  color: #333;
+  margin-bottom: 1em;
+}
+
+/* node form help text */
+.region-help .content {
+  margin-left: 2em;
+}
+
+/* multipage controls */
+
+.multipage-counter {
+  display: block;
+  margin-top: 3em;
+}
+
+.multipage-button {
+  float: right;
+}
+
+input.form-submit.multipage-link-previous, input.form-submit.multipage-link-next {
+  font-family: 'Open Sans',sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 5px 5px 10px 0;
+  background-color: #444;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+  color: #fff;
+  padding: 15px 24px !important;
+  text-transform: uppercase;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; color: #ffffff;
+  transition: background-color 0.3s ease-in-out;
+}
+
+input.form-submit.multipage-link-previous:before {
+  content: "\u2329";
+}
+
+input.form-submit.multipage-link-next:hover, input.form-submit.multipage-link-previous:hover {
+  background-color: #E74C3C;
+  box-shadow: none;
+  color: #ffffff;
+}
