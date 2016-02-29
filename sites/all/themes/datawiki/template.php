@@ -217,3 +217,25 @@ function datawiki_superfish($variables) {
 function datawiki_filter_tips_more_info() {
  	return '';
 }
+
+/* Next two functions work together to make text format menu collapsible */
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function datawiki_element_info_alter(&$type) {
+  $type['text_format']['#process'][] = 'datawiki_element_process_text_format';
+}
+
+/**
+ * Process function for text_format element.
+ *
+ * @see mysite_element_info_alter().
+ * @see https://drupal.org/node/2104275
+ */
+function datawiki_element_process_text_format($element) {
+  $element['format']['#collapsible'] = TRUE;
+  $element['format']['#collapsed'] = TRUE;
+  $element['format']['#title'] = t('Text formatting help');
+  return $element;
+}
