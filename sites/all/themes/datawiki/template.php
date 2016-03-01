@@ -239,3 +239,26 @@ function datawiki_element_process_text_format($element) {
   $element['format']['#title'] = t('Text formatting help');
   return $element;
 }
+
+
+/* Turns additional fields tabs into a somewhat configurable field in UI */
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function datawiki_field_extra_fields() {
+  $extra = array();
+  foreach (node_type_get_types() as $type) {
+    $extra['node'][$type->type] = array(
+      'form' => array(
+        'additional_settings' => array(
+          'label' => t('Additional settings'),
+          'description' => t('Additional settings'),
+          'weight' => 20,
+        ),
+      ),
+    );
+  }
+  return $extra;
+}
+
