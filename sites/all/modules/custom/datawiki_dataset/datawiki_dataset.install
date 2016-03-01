@@ -12,11 +12,6 @@ function datawiki_dataset_enable() {
     'description' => 'New dataset content type for review',
     'custom' => TRUE,
     );
-  $new_vocabs = array(
-    'vocabulary_frequency' => 'Sampling Frequency',
-    'vocabulary_license' => 'License',
-    'vocabulary_install' => 'Install package',
-    );
   $new_fields = array(
     'body' => array(
       'name' => 'body',
@@ -432,28 +427,16 @@ function datawiki_dataset_enable() {
           ),
         ),
       ),
-    'taxonomy_vocabulary_license' => array(
-      'field_name' => 'taxonomy_vocabulary_license',
-      'type' => 'taxonomy_term_reference',
+    'field_license_link' => array(
+      'field_name' => 'field_license_link',
+      'type' => 'link_field',
       'label' => 'License',
-      'description' => '',
+      'description' => 'If the dataset has a license (e.g. GPL or Creative Commons) add license URL and the name of the license to the Title field.',
       'cardinality' => 1,
       'settings' => array(
-        'allowed_values' => array(
-          array(
-            'vocabulary' => 'vocabulary_license',
-            'parent' => 0
-            ),
-          ),
         'description_display' => 'before',
         ),
-      'widget' => array(
-        'type' => 'autocomplete_deluxe_taxonomy',
-        'module' => 'autocomplete_deluxe',
-        'settings' => array(
-          'size' => 25,
-          ),
-        ),
+      'widget' => array(),
       'display' => array(
         'default' => array(
           'weight' => 28,
@@ -595,11 +578,10 @@ function datawiki_dataset_enable() {
         1 => 'field_best_practices_text',
         2 => 'field_conditions_text',
         3 => 'field_citation_text',
-        4 => 'taxonomy_vocabulary_license',
-        5 => 'taxonomy_vocabulary_install',
-        6 => 'field_install_code_link',
-        7 => 'field_supplemental_text',
-        8 => 'field_publications_text',
+        4 => 'field_license_link',
+        5 => 'field_install_code_link',
+        6 => 'field_supplemental_text',
+        7 => 'field_publications_text',
         ),
       ),
     'group_details' => array(
@@ -653,7 +635,7 @@ function datawiki_dataset_enable() {
         'formatter' => 'open',
         'instance_settings' => array(
           'classes' => 'taxonomy-group',
-          'description' => 'Tag this dataset with as many relevant keywords as you can find in the categories below. Add a new keyword by typing it into the most appropriate category.',
+          'description' => "Tag this dataset with as many relevant keywords as you can find in the categories below. Add a new keyword by typing it into the most appropriate category. Keywords help others use search to quickly find datasets.",
           ),
         ),
       'weight' => 32,
@@ -671,24 +653,10 @@ function datawiki_dataset_enable() {
       ),
     );
 
-  _create_vocabs($new_vocabs);
   _create_content_type($new_content_type);
   _add_or_update_fields($new_content_type,$new_fields);
   _create_fieldgroups($new_field_groups);
 }
-
-// Bulk create new taxonomy vocabularies
-
-function _create_vocabs($vocabs) {
-  foreach ($vocabs as $vocab_name => $name) {
-    if(!taxonomy_vocabulary_machine_name_load($vocab_name)){
-        $vocab = new stdClass();
-        $vocab->name = $name;
-        $vocab->machine_name = $vocab_name;
-        taxonomy_vocabulary_save($vocab);
-      } //if
-    } //foreach
-} //_create_vocabs
 
 function _create_content_type($content_type_definition) {
   $types = node_type_get_types();
@@ -755,17 +723,7 @@ function _create_fieldgroups($groups) {
 
 function datawiki_dataset_uninstall() {
 
-  $new_field_names = array(
-  'taxonomy_vocabulary_group','taxonomy_vocabulary_level','taxonomy_vocabulary_scale','taxonomy_vocabulary_type','taxonomy_vocabulary_biome','taxonomy_vocabulary_access','field_get_data_url','field_get_data_text','field_georeferenced_is','field_collection_site_geo','field_collection_site','field_image','field_timespan_date','field_time_series_is','field_time_series_date','taxonomy_vocabulary_frequency','field_data_collection_text','field_data_collected_text','field_known_issues_text','field_best_practices_text','field_conditions_text','field_citation_text','taxonomy_vocabulary_license','taxonomy_vocabulary_install','field_install_code_text','field_supplemental_text','field_publications_text','field_miscellaneous_text',
-  );
   $new_content_type_name = 'dataset';
-
-  // // Delete the new fields
-  // foreach ($new_field_names as $machine_name) {
-  //   field_delete_field($machine_name);
-  //   dpm('deleted ' . $machine_name);
-  //   field_purge_batch(1);
-  // }
 
   // Delete the new content type
   node_type_delete($new_content_type_name);
