@@ -40,214 +40,785 @@ function datawiki_custom_views_default_views() {
   /* ------BEGIN FIND DATA VIEW ------- */
 
   $view = new view();
-$view->name = 'finddata_block_filter';
-$view->description = 'Allow dynamic filtering of datasets based on Drupal taxonomy';
-$view->tag = '';
-$view->base_table = 'node';
-$view->human_name = '';
-$view->core = 0;
-$view->api_version = '3.0';
-$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $view->name = 'finddata_block_filter';
+  $view->description = 'Allow dynamic filtering of datasets based on Drupal taxonomy';
+  $view->tag = '';
+  $view->base_table = 'node';
+  $view->human_name = '';
+  $view->core = 0;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-/* Display: Defaults */
-$handler = $view->new_display('default', 'Defaults', 'default');
-$handler->display->display_options['title'] = 'Find Data';
-$handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['cache']['type'] = 'time';
-$handler->display->display_options['cache']['results_lifespan'] = '3600';
-$handler->display->display_options['cache']['results_lifespan_custom'] = '0';
-$handler->display->display_options['cache']['output_lifespan'] = '3600';
-$handler->display->display_options['cache']['output_lifespan_custom'] = '0';
-$handler->display->display_options['query']['type'] = 'views_query';
-$handler->display->display_options['exposed_form']['type'] = 'basic';
-$handler->display->display_options['pager']['type'] = 'full';
-$handler->display->display_options['pager']['options']['items_per_page'] = 20;
-$handler->display->display_options['style_plugin'] = 'table';
-$handler->display->display_options['style_options']['grouping'] = '';
-$handler->display->display_options['style_options']['columns'] = array(
-  'title' => 'title',
-  'teaser' => 'teaser',
-);
-$handler->display->display_options['style_options']['default'] = '-1';
-$handler->display->display_options['style_options']['info'] = array(
-  'title' => array(
-    'sortable' => 0,
-    'separator' => '',
-  ),
-  'teaser' => array(
-    'separator' => '',
-  ),
-);
-$handler->display->display_options['exposed_block'] = TRUE;
-/* Header: Global: Result summary */
-$handler->display->display_options['header']['result']['id'] = 'result';
-$handler->display->display_options['header']['result']['table'] = 'views';
-$handler->display->display_options['header']['result']['field'] = 'result';
-$handler->display->display_options['header']['result']['content'] = '@start - @end of @total results';
-/* No results behavior: Global: Text area */
-$handler->display->display_options['empty']['text']['id'] = 'area';
-$handler->display->display_options['empty']['text']['table'] = 'views';
-$handler->display->display_options['empty']['text']['field'] = 'area';
-$handler->display->display_options['empty']['text']['content'] = 'There are currently no data sets available that match your search criteria. If you know of any please start a short page (it could be as simple as a title and a link to a relevant web page) or check back again soon since the number of data sets is increasing rapidly';
-$handler->display->display_options['empty']['text']['format'] = '1';
-/* Field: Content: Title */
-$handler->display->display_options['fields']['title']['id'] = 'title';
-$handler->display->display_options['fields']['title']['table'] = 'node';
-$handler->display->display_options['fields']['title']['field'] = 'title';
-$handler->display->display_options['fields']['title']['label'] = '';
-$handler->display->display_options['fields']['title']['alter']['max_length'] = '300';
-$handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
-$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['title']['empty'] = 'No results. Change filters or search terms and try again.';
-/* Field: Content: Body */
-$handler->display->display_options['fields']['body']['id'] = 'body';
-$handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-$handler->display->display_options['fields']['body']['field'] = 'body';
-$handler->display->display_options['fields']['body']['label'] = '';
-$handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = TRUE;
-$handler->display->display_options['fields']['body']['alter']['max_length'] = '200';
-$handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
-$handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
-$handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['body']['settings'] = array(
-  'trim_length' => '200',
-);
-/* Sort criterion: Content: Title */
-$handler->display->display_options['sorts']['title']['id'] = 'title';
-$handler->display->display_options['sorts']['title']['table'] = 'node';
-$handler->display->display_options['sorts']['title']['field'] = 'title';
-/* Filter criterion: Global: Combine fields filter */
-$handler->display->display_options['filters']['combine']['id'] = 'combine';
-$handler->display->display_options['filters']['combine']['table'] = 'views';
-$handler->display->display_options['filters']['combine']['field'] = 'combine';
-$handler->display->display_options['filters']['combine']['operator'] = 'contains';
-$handler->display->display_options['filters']['combine']['group'] = 1;
-$handler->display->display_options['filters']['combine']['exposed'] = TRUE;
-$handler->display->display_options['filters']['combine']['expose']['operator_id'] = 'combine_op';
-$handler->display->display_options['filters']['combine']['expose']['label'] = 'Keyword search';
-$handler->display->display_options['filters']['combine']['expose']['operator'] = 'combine_op';
-$handler->display->display_options['filters']['combine']['expose']['identifier'] = 'combine';
-$handler->display->display_options['filters']['combine']['expose']['remember_roles'] = array(
-  2 => '2',
-  1 => 0,
-  3 => 0,
-  4 => 0,
-);
-$handler->display->display_options['filters']['combine']['fields'] = array(
-  'title' => 'title',
-  'body' => 'body',
-);
-/* Filter criterion: Content: Type */
-$handler->display->display_options['filters']['type']['id'] = 'type';
-$handler->display->display_options['filters']['type']['table'] = 'node';
-$handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['value'] = array(
-  'dataset_wiki_page' => 'dataset_wiki_page',
-);
-$handler->display->display_options['filters']['type']['group'] = 1;
-$handler->display->display_options['filters']['type']['expose']['label'] = 'Node: Type';
-$handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
-$handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid']['id'] = 'tid';
-$handler->display->display_options['filters']['tid']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid']['field'] = 'tid';
-$handler->display->display_options['filters']['tid']['group'] = 1;
-$handler->display->display_options['filters']['tid']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid']['expose']['operator_id'] = 'tid_op';
-$handler->display->display_options['filters']['tid']['expose']['label'] = 'Taxon';
-$handler->display->display_options['filters']['tid']['expose']['operator'] = 'tid_op';
-$handler->display->display_options['filters']['tid']['expose']['identifier'] = 'tid';
-$handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid']['type'] = 'select';
-$handler->display->display_options['filters']['tid']['vocabulary'] = 'vocabulary_2';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_4']['id'] = 'tid_4';
-$handler->display->display_options['filters']['tid_4']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_4']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_4']['value'] = array(
-  36 => '36',
-  25 => '25',
-  37 => '37',
-  26 => '26',
-  27 => '27',
-  35 => '35',
-  28 => '28',
-  29 => '29',
-  30 => '30',
-  31 => '31',
-  32 => '32',
-);
-$handler->display->display_options['filters']['tid_4']['group'] = 1;
-$handler->display->display_options['filters']['tid_4']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['expose']['operator_id'] = 'tid_4_op';
-$handler->display->display_options['filters']['tid_4']['expose']['label'] = 'Biome';
-$handler->display->display_options['filters']['tid_4']['expose']['operator'] = 'tid_4_op';
-$handler->display->display_options['filters']['tid_4']['expose']['identifier'] = 'tid_4';
-$handler->display->display_options['filters']['tid_4']['expose']['reduce'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_4']['type'] = 'select';
-$handler->display->display_options['filters']['tid_4']['vocabulary'] = 'vocabulary_8';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_1']['id'] = 'tid_1';
-$handler->display->display_options['filters']['tid_1']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_1']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_1']['group'] = 1;
-$handler->display->display_options['filters']['tid_1']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_1']['expose']['operator_id'] = 'tid_1_op';
-$handler->display->display_options['filters']['tid_1']['expose']['label'] = 'Data Type';
-$handler->display->display_options['filters']['tid_1']['expose']['operator'] = 'tid_1_op';
-$handler->display->display_options['filters']['tid_1']['expose']['identifier'] = 'tid_1';
-$handler->display->display_options['filters']['tid_1']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_1']['type'] = 'select';
-$handler->display->display_options['filters']['tid_1']['vocabulary'] = 'vocabulary_3';
-$handler->display->display_options['filters']['tid_1']['hierarchy'] = 1;
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_2']['id'] = 'tid_2';
-$handler->display->display_options['filters']['tid_2']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_2']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_2']['group'] = 1;
-$handler->display->display_options['filters']['tid_2']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_2']['expose']['operator_id'] = 'tid_2_op';
-$handler->display->display_options['filters']['tid_2']['expose']['label'] = 'Ecological Level';
-$handler->display->display_options['filters']['tid_2']['expose']['operator'] = 'tid_2_op';
-$handler->display->display_options['filters']['tid_2']['expose']['identifier'] = 'tid_2';
-$handler->display->display_options['filters']['tid_2']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_2']['type'] = 'select';
-$handler->display->display_options['filters']['tid_2']['vocabulary'] = 'vocabulary_6';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_3']['id'] = 'tid_3';
-$handler->display->display_options['filters']['tid_3']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_3']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_3']['group'] = 1;
-$handler->display->display_options['filters']['tid_3']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_3']['expose']['operator_id'] = 'tid_3_op';
-$handler->display->display_options['filters']['tid_3']['expose']['label'] = 'Spatial Scale (extent)';
-$handler->display->display_options['filters']['tid_3']['expose']['operator'] = 'tid_3_op';
-$handler->display->display_options['filters']['tid_3']['expose']['identifier'] = 'tid_3';
-$handler->display->display_options['filters']['tid_3']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_3']['type'] = 'select';
-$handler->display->display_options['filters']['tid_3']['vocabulary'] = 'vocabulary_5';
-/* Filter criterion: Content: Has taxonomy term */
-$handler->display->display_options['filters']['tid_5']['id'] = 'tid_5';
-$handler->display->display_options['filters']['tid_5']['table'] = 'taxonomy_index';
-$handler->display->display_options['filters']['tid_5']['field'] = 'tid';
-$handler->display->display_options['filters']['tid_5']['group'] = 1;
-$handler->display->display_options['filters']['tid_5']['exposed'] = TRUE;
-$handler->display->display_options['filters']['tid_5']['expose']['operator_id'] = 'tid_5_op';
-$handler->display->display_options['filters']['tid_5']['expose']['label'] = 'Accessibility';
-$handler->display->display_options['filters']['tid_5']['expose']['operator'] = 'tid_5_op';
-$handler->display->display_options['filters']['tid_5']['expose']['identifier'] = 'tid_5';
-$handler->display->display_options['filters']['tid_5']['reduce_duplicates'] = TRUE;
-$handler->display->display_options['filters']['tid_5']['type'] = 'select';
-$handler->display->display_options['filters']['tid_5']['vocabulary'] = 'vocabulary_9';
+  /* Display: Defaults */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['title'] = 'Find Data';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '3600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '3600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['distinct'] = TRUE;
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Submit';
+  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset all filters';
+  $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced Search Options',
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'combine' => array(
+      'bef_format' => 'default',
+      'more_options' => array(
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid_4' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid_1' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_select_all_none_nested' => 0,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid_2' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid_3' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'tid_5' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 1,
+        'is_secondary' => 1,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+            1 => 'vocabulary',
+            'secondary_label' => NULL,
+            'collapsible_label' => NULL,
+            'combine_rewrite' => NULL,
+            'reset_label' => NULL,
+            'bef_filter_description' => NULL,
+            'any_label' => NULL,
+            'filter_rewrite_values' => NULL,
+          ),
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+          'filter_rewrite_values' => NULL,
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+          'secondary_label' => NULL,
+          'collapsible_label' => NULL,
+          'combine_rewrite' => NULL,
+          'reset_label' => NULL,
+          'bef_filter_description' => NULL,
+          'any_label' => NULL,
+        ),
+        'secondary_label' => NULL,
+        'collapsible_label' => NULL,
+        'combine_rewrite' => NULL,
+        'reset_label' => NULL,
+        'filter_rewrite_values' => NULL,
+      ),
+      'secondary_label' => NULL,
+      'collapsible_label' => NULL,
+      'combine_rewrite' => NULL,
+      'reset_label' => NULL,
+      'bef_filter_description' => NULL,
+      'any_label' => NULL,
+      'filter_rewrite_values' => NULL,
+    ),
+    'secondary_label' => NULL,
+    'collapsible_label' => NULL,
+    'combine_rewrite' => NULL,
+    'reset_label' => NULL,
+    'bef_filter_description' => NULL,
+    'any_label' => NULL,
+    'filter_rewrite_values' => NULL,
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = '1';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = 20;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'term_node_tid' => 'term_node_tid',
+    'title' => 'title',
+    'body' => 'body',
+    'taxonomy_vocabulary_9' => 'taxonomy_vocabulary_9',
+    'taxonomy_vocabulary_8' => 'taxonomy_vocabulary_8',
+    'body_1' => 'body_1',
+    'taxonomy_vocabulary_3' => 'taxonomy_vocabulary_3',
+    'taxonomy_vocabulary_6' => 'taxonomy_vocabulary_6',
+    'taxonomy_vocabulary_5' => 'taxonomy_vocabulary_5',
+    'taxonomy_vocabulary_2' => 'taxonomy_vocabulary_2',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'term_node_tid' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
+    ),
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'body' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_9' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_8' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'body_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_3' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_6' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_5' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'taxonomy_vocabulary_2' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['override'] = FALSE;
+  $handler->display->display_options['exposed_block'] = TRUE;
+  /* Header: Global: Result summary */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['content'] = '@start - @end of @total results';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['text']['id'] = 'area';
+  $handler->display->display_options['empty']['text']['table'] = 'views';
+  $handler->display->display_options['empty']['text']['field'] = 'area';
+  $handler->display->display_options['empty']['text']['content'] = 'There are currently no data sets available that match your search criteria. If you know of any please start a short page (it could be as simple as a title and a link to a relevant web page) or check back again soon since the number of data sets is increasing rapidly';
+  $handler->display->display_options['empty']['text']['format'] = '1';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['max_length'] = '300';
+  $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['empty'] = 'No results. Change filters or search terms and try again.';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['alter']['text'] = '[body]
+  [term_node_tid]';
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '200';
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '200',
+  );
+  /* Field: Content: All taxonomy terms */
+  $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
+  $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['label'] = '';
+  $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['term_node_tid']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['term_node_tid']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
+    'vocabulary_1' => 0,
+    'vocabulary_2' => 0,
+    'vocabulary_6' => 0,
+    'vocabulary_5' => 0,
+    'vocabulary_3' => 0,
+    'vocabulary_9' => 0,
+    'vocabulary_8' => 0,
+    'vocabulary_install' => 0,
+    'vocabulary_license' => 0,
+    'vocabulary_frequency' => 0,
+  );
+  /* Field: Content: Accessibility */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['id'] = 'taxonomy_vocabulary_9';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['table'] = 'field_data_taxonomy_vocabulary_9';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['field'] = 'taxonomy_vocabulary_9';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_9']['delta_offset'] = '0';
+  /* Field: Content: Biome */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['id'] = 'taxonomy_vocabulary_8';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['table'] = 'field_data_taxonomy_vocabulary_8';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['field'] = 'taxonomy_vocabulary_8';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_8']['delta_offset'] = '0';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body_1']['id'] = 'body_1';
+  $handler->display->display_options['fields']['body_1']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body_1']['field'] = 'body';
+  $handler->display->display_options['fields']['body_1']['label'] = '';
+  $handler->display->display_options['fields']['body_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['body_1']['element_label_colon'] = FALSE;
+  /* Field: Content: Data Type */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['id'] = 'taxonomy_vocabulary_3';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['table'] = 'field_data_taxonomy_vocabulary_3';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['field'] = 'taxonomy_vocabulary_3';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_3']['delta_offset'] = '0';
+  /* Field: Content: Ecological Level */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['id'] = 'taxonomy_vocabulary_6';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['table'] = 'field_data_taxonomy_vocabulary_6';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['field'] = 'taxonomy_vocabulary_6';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_6']['delta_offset'] = '0';
+  /* Field: Content: Scale (extent) */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['id'] = 'taxonomy_vocabulary_5';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['table'] = 'field_data_taxonomy_vocabulary_5';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['field'] = 'taxonomy_vocabulary_5';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_5']['delta_offset'] = '0';
+  /* Field: Content: Taxonomic Group */
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['id'] = 'taxonomy_vocabulary_2';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['table'] = 'field_data_taxonomy_vocabulary_2';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['field'] = 'taxonomy_vocabulary_2';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['label'] = '';
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['taxonomy_vocabulary_2']['delta_offset'] = '0';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  /* Filter criterion: Global: Combine fields filter */
+  $handler->display->display_options['filters']['combine']['id'] = 'combine';
+  $handler->display->display_options['filters']['combine']['table'] = 'views';
+  $handler->display->display_options['filters']['combine']['field'] = 'combine';
+  $handler->display->display_options['filters']['combine']['operator'] = 'word';
+  $handler->display->display_options['filters']['combine']['group'] = 1;
+  $handler->display->display_options['filters']['combine']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['combine']['expose']['operator_id'] = 'combine_op';
+  $handler->display->display_options['filters']['combine']['expose']['label'] = 'Keyword search';
+  $handler->display->display_options['filters']['combine']['expose']['operator'] = 'combine_op';
+  $handler->display->display_options['filters']['combine']['expose']['identifier'] = 'combine';
+  $handler->display->display_options['filters']['combine']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['combine']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['combine']['group_info']['label'] = 'Combine fields filter';
+  $handler->display->display_options['filters']['combine']['group_info']['identifier'] = 'combine';
+  $handler->display->display_options['filters']['combine']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['combine']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
+  );
+  $handler->display->display_options['filters']['combine']['fields'] = array(
+    'title' => 'title',
+    'body' => 'body',
+    'taxonomy_vocabulary_9' => 'taxonomy_vocabulary_9',
+    'taxonomy_vocabulary_8' => 'taxonomy_vocabulary_8',
+    'body_1' => 'body_1',
+    'taxonomy_vocabulary_3' => 'taxonomy_vocabulary_3',
+    'taxonomy_vocabulary_6' => 'taxonomy_vocabulary_6',
+    'taxonomy_vocabulary_5' => 'taxonomy_vocabulary_5',
+    'taxonomy_vocabulary_2' => 'taxonomy_vocabulary_2',
+  );
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'dataset_wiki_page' => 'dataset_wiki_page',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Node: Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid']['id'] = 'tid';
+  $handler->display->display_options['filters']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid']['group'] = 1;
+  $handler->display->display_options['filters']['tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid']['expose']['operator_id'] = 'tid_op';
+  $handler->display->display_options['filters']['tid']['expose']['label'] = 'Taxon';
+  $handler->display->display_options['filters']['tid']['expose']['operator'] = 'tid_op';
+  $handler->display->display_options['filters']['tid']['expose']['identifier'] = 'tid';
+  $handler->display->display_options['filters']['tid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid']['type'] = 'select';
+  $handler->display->display_options['filters']['tid']['vocabulary'] = 'vocabulary_2';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_4']['id'] = 'tid_4';
+  $handler->display->display_options['filters']['tid_4']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_4']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_4']['group'] = 1;
+  $handler->display->display_options['filters']['tid_4']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['expose']['operator_id'] = 'tid_4_op';
+  $handler->display->display_options['filters']['tid_4']['expose']['label'] = 'Biome';
+  $handler->display->display_options['filters']['tid_4']['expose']['operator'] = 'tid_4_op';
+  $handler->display->display_options['filters']['tid_4']['expose']['identifier'] = 'tid_4';
+  $handler->display->display_options['filters']['tid_4']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => '1',
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid_4']['group_info']['label'] = 'Has taxonomy term';
+  $handler->display->display_options['filters']['tid_4']['group_info']['identifier'] = 'tid_4';
+  $handler->display->display_options['filters']['tid_4']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['tid_4']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
+  );
+  $handler->display->display_options['filters']['tid_4']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_4']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_4']['vocabulary'] = 'vocabulary_8';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_1']['id'] = 'tid_1';
+  $handler->display->display_options['filters']['tid_1']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_1']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_1']['group'] = 1;
+  $handler->display->display_options['filters']['tid_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['expose']['operator_id'] = 'tid_1_op';
+  $handler->display->display_options['filters']['tid_1']['expose']['label'] = 'Data Type';
+  $handler->display->display_options['filters']['tid_1']['expose']['operator'] = 'tid_1_op';
+  $handler->display->display_options['filters']['tid_1']['expose']['identifier'] = 'tid_1';
+  $handler->display->display_options['filters']['tid_1']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid_1']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_1']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_1']['vocabulary'] = 'vocabulary_3';
+  $handler->display->display_options['filters']['tid_1']['hierarchy'] = 1;
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_2']['id'] = 'tid_2';
+  $handler->display->display_options['filters']['tid_2']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_2']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_2']['group'] = 1;
+  $handler->display->display_options['filters']['tid_2']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['expose']['operator_id'] = 'tid_2_op';
+  $handler->display->display_options['filters']['tid_2']['expose']['label'] = 'Ecological Level';
+  $handler->display->display_options['filters']['tid_2']['expose']['operator'] = 'tid_2_op';
+  $handler->display->display_options['filters']['tid_2']['expose']['identifier'] = 'tid_2';
+  $handler->display->display_options['filters']['tid_2']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid_2']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_2']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_2']['vocabulary'] = 'vocabulary_6';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_3']['id'] = 'tid_3';
+  $handler->display->display_options['filters']['tid_3']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_3']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_3']['group'] = 1;
+  $handler->display->display_options['filters']['tid_3']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['expose']['operator_id'] = 'tid_3_op';
+  $handler->display->display_options['filters']['tid_3']['expose']['label'] = 'Spatial Scale (extent)';
+  $handler->display->display_options['filters']['tid_3']['expose']['operator'] = 'tid_3_op';
+  $handler->display->display_options['filters']['tid_3']['expose']['identifier'] = 'tid_3';
+  $handler->display->display_options['filters']['tid_3']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid_3']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_3']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_3']['vocabulary'] = 'vocabulary_5';
+  /* Filter criterion: Content: Has taxonomy term */
+  $handler->display->display_options['filters']['tid_5']['id'] = 'tid_5';
+  $handler->display->display_options['filters']['tid_5']['table'] = 'taxonomy_index';
+  $handler->display->display_options['filters']['tid_5']['field'] = 'tid';
+  $handler->display->display_options['filters']['tid_5']['group'] = 1;
+  $handler->display->display_options['filters']['tid_5']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['expose']['operator_id'] = 'tid_5_op';
+  $handler->display->display_options['filters']['tid_5']['expose']['label'] = 'Accessibility';
+  $handler->display->display_options['filters']['tid_5']['expose']['operator'] = 'tid_5_op';
+  $handler->display->display_options['filters']['tid_5']['expose']['identifier'] = 'tid_5';
+  $handler->display->display_options['filters']['tid_5']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+  );
+  $handler->display->display_options['filters']['tid_5']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['tid_5']['type'] = 'select';
+  $handler->display->display_options['filters']['tid_5']['vocabulary'] = 'vocabulary_9';
 
-/* Display: Page */
-$handler = $view->new_display('page', 'Page', 'page_1');
-$handler->display->display_options['exposed_block'] = TRUE;
-$handler->display->display_options['path'] = 'find-data';
-
-
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['path'] = 'find-data';
 
   /* ------END FIND DATA VIEW ------- */
 
