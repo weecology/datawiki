@@ -1,87 +1,91 @@
-/* Custom CSS for ecologicaldata.org */
+/* ------ Custom CSS for ecologicaldata.org -----*/
 
-/*ul.primary li a {
-  margin: .1em;
-  padding: 0.5em;
-}*/
+/* ------- NODE VIEW ------ */
 
-/*Make edit and revision tabs larger on all pages*/
+/* Make edit and revision tabs larger on all nodes*/
 ul.primary {
   white-space: nowrap;
   padding-bottom: .5em;
 }
-
 ul.primary li {
   display: inline-block;
 }
-
 ul.primary li a {
   margin: .2em;
   padding: .5em 1em;
 }
 
-/* Customizations to tabs on user page only */
+/* ------- MENU ------- */
+/* Responsive menu toggle */
+#superfish-1-toggle {
+  font-size: 80px;
+}
+/* Darken menu text */
+ul.menu li a {
+  color: #888;
+}
 
+/* ------- VIEWS ------ */
+/* Hide the backend help text in exposed filters (Views bug) */
+.form-item.form-type-select .description {
+  display: none;
+}
+
+/* ------ USER PAGE ------ */
+
+/* tabs */
 .page-user- ul.primary {
   padding-left: 0;
   padding-bottom: 0.5em;
 }
-
 .page-user- ul.primary li a {
   padding: 0.5em 1em;
 }
 
-/* Update buttons on node edit forms */
+/* ------ NODE EDIT FORM ------ */
 
+/* hides confusing row weight link on node edit form */
+.tabledrag-toggle-weight {
+  display: none;
+}
+/* node form help text */
+.region-help .content {
+  margin-left: 2em;
+}
+/* Enlarge form item descriptions */
+.form-item .description {
+  font-size: 0.95em;
+}
+/* Update buttons on node edit forms */
 .field-add-more-submit {
   float: right;
 }
-
 /* Update link fields on node edit forms */
 .link-field-columns {
   width: 45%;
 }
-
 .link-field-column .form-text {
   width: 80%;
 }
-
-/* horizontal tab fieldgroup styling */
-
-.horizontal-tabs-list li {
-  list-style-type: none;
-}
-
-ul.horizontal-tabs-list li, ul.horizontal-tabs-list li.selected {
-  padding: .4em !important;
-  font-size: 1.2em;
-}
-
 /* lat long fields fix */
 input.geofield-lat, input.geofield-lon {
   width: 4em;
 }
-
 .form-item-field-collection-site-geo-und-0-geom-lat, .form-item-field-collection-site-geo-und-0-geom-lon {
   float: left;
   margin-right: 1em;
 }
-
 /* timespan 'TO' fix */
-
 .end-date-wrapper > div > label {
   margin-right: 100%;
 }
-
-/* Brings group of taxonomy term fields inline on dataset node edit form */
+/* Brings fieldgroup of taxonomy term fields inline */
 .taxonomy-group .field-type-taxonomy-term-reference {
   float: left;
   position: none;
   margin-right: 2em;
 }
-
-/* wraps text on taxonomy term field labels on dataset node edit form and fixes the nonsense that ensues*/
-
+/* wraps text on taxonomy term field labels on node edit form and fixes the nonsense that ensues*/
 .taxonomy-group .form-item.form-type-autocomplete-deluxe {
   white-space: pre;
   margin-top: 0;
@@ -94,57 +98,17 @@ input.geofield-lat, input.geofield-lon {
   border: 1px solid #ccc !important;
   margin-top: -1em;
 }
-/* .fieldset-wrapper .field-type-taxonomy-term-reference .form-type-autocomplete-deluxe {
-  margin-top: 0;
-  margin-bottom: 0;
+
+/* ------- FIELDGROUPS ------ */
+
+/* horizontal tab fieldgroup styling */
+/*.horizontal-tabs-list li {
+  list-style-type: none;
 }
-
-/* Hide description text in views exposed filters */
-
-div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-filter-tid'] .description {
-  display: none;
-}
-
-.page-find-data .views-exposed-widget {
-  float: none;
-}
-
-/* DS Bootstrap layout CSS tweaks for dataset content type only*/
-
-.node-dataset.view-mode-full .row {
-  margin-left: 15px;
-  margin-right: 15px;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 2em;
-}
-
-/* Dataset field theming */
-
-.node-dataset.view-mode-full .col-sm-4 {
-  background-color: #eee;
-}
-
-.node-dataset.view-mode-full .field-name-field-install-code-text {
-  font-family: monospace;
-}
-
-/* Style responsive menu toggle */
-
-#superfish-1-toggle {
-  font-size: 80px;
-}
-
-/* Hide the backend help text in exposed filters (Views bug) */
-.form-item.form-type-select .description {
-  display: none;
-}
-
-/* hides confusing row weight link on dataset node edit form */
-.tabledrag-toggle-weight {
-  display: none;
-}
-
+ul.horizontal-tabs-list li, ul.horizontal-tabs-list li.selected {
+  padding: .4em !important;
+  font-size: 1.2em;
+}*/
 /* outline field group pages in a multipage format */
 .field-group-multipage.multipage-pane {
   border: 2px solid #ddd;
@@ -154,23 +118,14 @@ div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-fi
   color: #333;
   margin-bottom: 1em;
 }
-
-/* node form help text */
-.region-help .content {
-  margin-left: 2em;
-}
-
-/* multipage controls */
-
+/* multipage controls need to match theme */
 .multipage-counter {
   display: block;
   margin-top: 3em;
 }
-
 .multipage-button {
   float: right;
 }
-
 input.form-submit.multipage-link-previous, input.form-submit.multipage-link-next {
   font-family: 'Open Sans',sans-serif;
   font-size: 14px;
@@ -189,16 +144,36 @@ input.form-submit.multipage-link-previous, input.form-submit.multipage-link-next
   border-radius: 3px; color: #ffffff;
   transition: background-color 0.3s ease-in-out;
 }
-
-input.form-submit.multipage-link-previous:before {
-  content: "\u2329";
-}
-
 input.form-submit.multipage-link-next:hover, input.form-submit.multipage-link-previous:hover {
   background-color: #E74C3C;
   box-shadow: none;
   color: #ffffff;
 }
+/* make a fieldgropu multipage stand out from the rest of the form */
 .field-group-multipage-group-wrapper {
   background: #fafafa;
+}
+
+/* ---- FIND DATA ----- */
+
+/* Hide description text in views exposed filters */
+div[class*='views-widget-filter-tid'] .description, div[class^=' views-widget-filter-tid'] .description {
+  display: none;
+}
+.page-find-data .views-exposed-widget {
+  float: none;
+}
+
+/* ------ DATASET CONTENT DISPLAY ------ */
+/* Change node classes after deploying new fields to existing content type */
+
+.node-dataset.view-mode-full .row {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 2em;
+}
+.node-dataset.view-mode-full .col-sm-4 {
+  background-color: #eee;
 }
