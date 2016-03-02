@@ -99,8 +99,8 @@ input.geofield-lat, input.geofield-lon {
   margin-top: -1em;
 }
 #edit-field-license-link {
-  border: 1px solid #ccc;
-  padding: 0.5em;
+  border: 1px solid #ddd;
+  padding: 0 0.5em;
 }
 
 /* ------- FIELDGROUPS ------ */
