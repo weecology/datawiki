@@ -3,6 +3,7 @@
 /sites/*/private
 /files/*
 /cache
+/sites/default/settings.*
 
 # ** Only works in OSs that support newer versions of fnmatch (Bash 4+)
 /sites/default/**/files
@@ -30,7 +31,8 @@
 ######################
 .DS_Store*
 ehthumbs.db
-Icon
+Icon
+
 Thumbs.db
 ._*
 
